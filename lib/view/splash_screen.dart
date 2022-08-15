@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/config.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -8,13 +10,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+
+  // init state
+  
+
+
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
+    var _height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
           child: Center(
-        child: Image.asset("assets/animation.gif", width: _width,),
+        child: Image.asset(
+          Config.app_animation,
+          width: _width,
+          height: _height,
+        ),
       )),
     );
   }
