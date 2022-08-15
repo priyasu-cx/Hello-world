@@ -1,3 +1,4 @@
+import 'package:connecten/provider/internet_provider.dart';
 import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/view/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SignInProvider()),
+        ChangeNotifierProvider(create: (context) => InternetProvider()),
       ],
       child: MaterialApp(
         title: 'ConnecTen',

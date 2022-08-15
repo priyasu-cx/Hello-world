@@ -1,4 +1,7 @@
+import 'package:connecten/provider/internet_provider.dart';
 import 'package:connecten/provider/sign_in_provider.dart';
+import 'package:connecten/utils/snack_bar.dart';
+import 'package:connecten/view/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -119,9 +122,39 @@ class _LoginPageState extends State<LoginPage> {
   // Handling Google sign in
   Future handleGoogleSignIn() async {
     final sp = context.read<SignInProvider>();
+    final ip = context.read<InternetProvider>();
+    await ip.checkInternetConnection();
 
+    if (ip.hasInternet == false) {
+      openSnackBar(
+          context, "Check your Internet connection.", Colors.red.shade400);
+    } else {
+      await sp.signInWithGoogle().then((value) {
+        if (sp.hasError == true) {
+          openSnackBar(context, sp.errorCode.toString(), Colors.red.shade400);
+        } else {
+          sp.chechUserExists().then((value) async {
+            if (value == true) {
+              // await sp.
+            } else {
+              sp.saveDataToFirestore().then((value) {
+                sp
+                    .saveDataToSharedPreferences()
+                    .then((value) => sp.setSignIn().then((value) {
+                          handleAfterSignIn();
+                        }));
+              });
+            }
+          });
+        }
+      });
+    }
   }
 
-
-
+  handleAfterSignIn() {
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    });
+  }
 }
