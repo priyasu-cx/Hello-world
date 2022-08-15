@@ -22,15 +22,16 @@ class _LoginPageState extends State<LoginPage> {
           Image.asset(
             "assets/login.png",
             width: _width,
-            alignment: Alignment.topCenter,
+            // alignment: Alignment.topCenter,
             scale: 0.8,
           ),
           Container(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.bottomLeft,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: _width * 0.1),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const Text(
                     "Welcome to",
@@ -63,24 +64,31 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     padding: EdgeInsets.symmetric(
                       // horizontal: _width * 0.11,
-                      vertical: _width * 0.05,
+                      vertical: _height * 0.08,
                     ),
                     child: Material(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        alignment: Alignment.center,
-                        height: _width * 0.1,
-                        decoration: const BoxDecoration(
-                          color: Color(0xff567DF4),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Color(0xff567DF4),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: InkWell(
+                        onTap: () {
+                          print("Sign In tapped.");
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          alignment: Alignment.center,
+                          height: _width * 0.1,
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                            
+                          ),
+                          child: Image.asset("assets/google.png"),
                         ),
-                        child: Image.asset("assets/google.png"),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: _height * 0.15,
-                  )
+                  // SizedBox(
+                  //   height: _height * 0.05,
+                  // )
                 ],
               ),
             ),
