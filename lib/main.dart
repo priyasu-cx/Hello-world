@@ -1,4 +1,4 @@
-import 'package:connecten/view/login.dart';
+import 'package:connecten/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,5 +22,5 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  LoginPage LandingPage() => LoginPage();
+  LandingPage() => SplashScreen();
 }
