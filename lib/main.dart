@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
         Theme.of(context).textTheme,
       )),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: LandingPage(),
     );
   }
+
+  LoginPage LandingPage() => LoginPage();
 }
