@@ -1,4 +1,6 @@
+import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -72,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: InkWell(
                         onTap: () {
-                          print("Sign In tapped.");
+                          handleGoogleSignIn();
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -88,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                               Padding(
                                 padding:
                                     EdgeInsets.fromLTRB(_width * 0.05, 0, 0, 0),
-                                child: Text(
+                                child: const Text(
                                   "Sign in with Google",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -113,4 +115,13 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  // Handling Google sign in
+  Future handleGoogleSignIn() async {
+    final sp = context.read<SignInProvider>();
+
+  }
+
+
+
 }
