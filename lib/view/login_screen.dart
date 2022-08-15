@@ -67,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
                       vertical: _height * 0.08,
                     ),
                     child: Material(
-                      color: Color(0xff567DF4),
+                      // color: Color(0xff567DF4),
+                      color: Colors.red,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: InkWell(
                         onTap: () {
@@ -76,12 +77,27 @@ class _LoginPageState extends State<LoginPage> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           alignment: Alignment.center,
-                          height: _width * 0.1,
+                          height: _width * 0.12,
                           decoration: const BoxDecoration(
                             color: Colors.transparent,
-                            
                           ),
-                          child: Image.asset("assets/google.png"),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset("assets/google.png"),
+                              Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(_width * 0.05, 0, 0, 0),
+                                child: Text(
+                                  "Sign in with Google",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
