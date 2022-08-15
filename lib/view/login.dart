@@ -16,18 +16,32 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset("assets/login.png"),
+          Image.asset(
+            "assets/login.png",
+            width: _width,
+            alignment: Alignment.topCenter,
+            scale: 0.8,
+          ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: _width * 0.01),
+            padding: EdgeInsets.symmetric(horizontal: _width * 0.1),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Welcome to",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w300,
+                  ),
+                ),
+                Text(
+                  "ConnecTen",
+                  style: TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ],
