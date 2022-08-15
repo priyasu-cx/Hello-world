@@ -44,11 +44,11 @@ class _LoginPageState extends State<LoginPage> {
                     "ConnecTen",
                     style: TextStyle(
                       fontSize: 38,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   const Text(
-                    "\nBest cloud storage platform for all \nbusiness and individuals to \nmanage there data.",
+                    "\nBest community connection platform \nfor all meetups and events to \nconnect hassle free.",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
