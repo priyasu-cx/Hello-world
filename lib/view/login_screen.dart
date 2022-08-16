@@ -1,6 +1,14 @@
+
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'package:connecten/provider/internet_provider.dart';
+import 'package:connecten/provider/sign_in_provider.dart';
+import 'package:connecten/utils/snack_bar.dart';
+import 'package:connecten/view/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -69,22 +77,41 @@ class _LoginPageState extends State<LoginPage> {
                       vertical: _height * 0.08,
                     ),
                     child: Material(
-                      color: Color(0xff567DF4),
+                      // color: Color(0xff567DF4),
+                      color: Colors.red,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: InkWell(
                         onTap: () {
+
                           Get.to(Profile());
                           print("Sign In tapped.");
+
+                          //handleGoogleSignIn();
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           alignment: Alignment.center,
-                          height: _width * 0.1,
+                          height: _width * 0.12,
                           decoration: const BoxDecoration(
                             color: Colors.transparent,
-                            
                           ),
-                          child: Image.asset("assets/google.png"),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset("assets/google.png"),
+                              Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(_width * 0.05, 0, 0, 0),
+                                child: const Text(
+                                  "Sign in with Google",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -99,5 +126,44 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  // Handling Google sign in
+  Future handleGoogleSignIn() async {
+    final sp = context.read<SignInProvider>();
+    final ip = context.read<InternetProvider>();
+    await ip.checkInternetConnection();
+
+    if (ip.hasInternet == false) {
+      openSnackBar(
+          context, "Check your Internet connection.", Colors.red.shade400);
+    } else {
+      await sp.signInWithGoogle().then((value) {
+        if (sp.hasError == true) {
+          openSnackBar(context, sp.errorCode.toString(), Colors.red.shade400);
+        } else {
+          sp.chechUserExists().then((value) async {
+            if (value == true) {
+              // await sp.
+            } else {
+              sp.saveDataToFirestore().then((value) {
+                sp
+                    .saveDataToSharedPreferences()
+                    .then((value) => sp.setSignIn().then((value) {
+                          handleAfterSignIn();
+                        }));
+              });
+            }
+          });
+        }
+      });
+    }
+  }
+
+  handleAfterSignIn() {
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    });
   }
 }
