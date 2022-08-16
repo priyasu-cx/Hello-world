@@ -83,10 +83,9 @@ class _LoginPageState extends State<LoginPage> {
                       child: InkWell(
                         onTap: () {
 
-                          Get.to(Profile());
-                          print("Sign In tapped.");
+                          
 
-                          //handleGoogleSignIn();
+                          handleGoogleSignIn();
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -144,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           sp.chechUserExists().then((value) async {
             if (value == true) {
-              // await sp.
+              handleAfterSignIn();
             } else {
               sp.saveDataToFirestore().then((value) {
                 sp
@@ -163,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
   handleAfterSignIn() {
     Future.delayed(Duration(seconds: 1)).then((value) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          context, MaterialPageRoute(builder: (context) => Profile()));
     });
   }
 }
