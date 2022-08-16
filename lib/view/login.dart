@@ -1,4 +1,6 @@
+import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -71,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: InkWell(
                         onTap: () {
+                          Get.to(Profile());
                           print("Sign In tapped.");
                         },
                         child: Container(

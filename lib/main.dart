@@ -1,7 +1,10 @@
+import 'package:connecten/view/login.dart';
 import 'package:connecten/view/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
+
 
 void main() async {
   // Initialize the application
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'ConnecTen',
       theme: ThemeData(
           textTheme: GoogleFonts.robotoTextTheme(
@@ -26,5 +29,6 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  LandingPage() => SplashScreen();
+  LandingPage() => LoginPage();
+  //LandingPage() => SplashScreen();
 }
