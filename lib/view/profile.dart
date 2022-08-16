@@ -23,6 +23,7 @@ class _ProfileState extends State<Profile> {
         shadowColor: primarybgcolor,
         elevation: 0.0,
         leading: IconButton(
+          splashRadius: 1,
           padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
           onPressed: () {},
           icon: FaIcon(
