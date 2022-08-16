@@ -83,10 +83,10 @@ class _LoginPageState extends State<LoginPage> {
                       child: InkWell(
                         onTap: () {
 
-                          Get.to(Profile());
-                          print("Sign In tapped.");
+                          // Get.to(Profile());
+                          // print("Sign In tapped.");
 
-                          //handleGoogleSignIn();
+                          handleGoogleSignIn();
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
