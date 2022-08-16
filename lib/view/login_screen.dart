@@ -83,8 +83,6 @@ class _LoginPageState extends State<LoginPage> {
                       child: InkWell(
                         onTap: () {
 
-                          
-
                           handleGoogleSignIn();
                         },
                         child: Container(

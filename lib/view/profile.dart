@@ -26,7 +26,7 @@ class _ProfileState extends State<Profile> {
           padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
           onPressed: () {},
           icon: FaIcon(
-            FontAwesomeIcons.chevronLeft,
+            FontAwesomeIcons.bars,
             color: arrowcolor,
           ),
           alignment: Alignment.centerLeft,
