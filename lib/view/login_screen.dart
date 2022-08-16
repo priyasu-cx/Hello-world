@@ -1,3 +1,8 @@
+
+import 'package:connecten/view/profile.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:connecten/provider/internet_provider.dart';
 import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/utils/snack_bar.dart';
@@ -77,7 +82,11 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: InkWell(
                         onTap: () {
-                          handleGoogleSignIn();
+
+                          Get.to(Profile());
+                          print("Sign In tapped.");
+
+                          //handleGoogleSignIn();
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
