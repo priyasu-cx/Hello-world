@@ -1,4 +1,3 @@
-
 import 'package:connecten/view/form_screen.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +82,6 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: InkWell(
                         onTap: () {
-
                           handleGoogleSignIn();
                         },
                         child: Container(
@@ -142,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           sp.chechUserExists().then((value) async {
             if (value == true) {
+              sp.getUserDataFromFirestore();
               handleAfterSignIn();
             } else {
               sp.saveDataToFirestore().then((value) {
@@ -166,9 +165,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   handleAfterSignIn() {
-    Future.delayed(Duration(seconds: 1)).then((value) {
+    final sp = context.read<SignInProvider>();
+    if (sp.isFormDone == true) {
+      Future.delayed(Duration(seconds: 1)).then((value) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Profile()));
+      });
+    } else {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Profile()));
-    });
+          context, MaterialPageRoute(builder: (context) => FormScreen()));
+    }
   }
 }

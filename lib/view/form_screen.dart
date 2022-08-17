@@ -1,3 +1,4 @@
+import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/internet_provider.dart';
@@ -168,7 +169,10 @@ class _FormScreenState extends State<FormScreen> {
     } else {
       await sp.setFormData(name, designation, bio).then((value) {
         sp.saveFormDataToFirestore().then((value) {
-          sp.setFormDone();
+          sp.setFormDone().then((value) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Profile()));
+          });
         });
       });
     }
