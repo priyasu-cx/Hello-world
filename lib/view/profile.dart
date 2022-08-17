@@ -28,16 +28,20 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.transparent,
         shadowColor: primarybgcolor,
         elevation: 0.0,
-        leading: Builder(builder: (context) =>IconButton(
-          splashRadius: 1,
-          padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
-          onPressed: () {Scaffold.of(context).openDrawer();},
-          icon: FaIcon(
-            FontAwesomeIcons.bars,
-            color: arrowcolor,
+        leading: Builder(
+          builder: (context) => IconButton(
+            splashRadius: 1,
+            padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: FaIcon(
+              FontAwesomeIcons.bars,
+              color: arrowcolor,
+            ),
+            alignment: Alignment.centerLeft,
           ),
-          alignment: Alignment.centerLeft,
-        ),),
+        ),
       ),
       body: Column(
         children: [

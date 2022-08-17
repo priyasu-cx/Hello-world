@@ -1,6 +1,7 @@
 import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/drawer_item.dart';
+import 'package:connecten/view/connections.dart';
 import 'package:connecten/view/login_screen.dart';
 import 'package:connecten/view/nearby_connect.dart';
 import 'package:connecten/view/profile.dart';
@@ -50,7 +51,7 @@ class _MenuState extends State<Menu> {
               DrawerItem(
                 name: 'Connections',
                 icon: Icons.people,
-                onPressed: () => onItemPressed(context, index: 0),
+                onPressed: () => onItemPressed(context, index: 1),
               ),
               SizedBox(
                 height: Get.height * 0.03,
@@ -73,14 +74,14 @@ class _MenuState extends State<Menu> {
               DrawerItem(
                   name: 'Setting',
                   icon: Icons.settings,
-                  onPressed: () => onItemPressed(context, index: 4)),
+                  onPressed: () => onItemPressed(context, index: 3)),
               SizedBox(
                 height: Get.height * 0.03,
               ),
               DrawerItem(
                   name: 'Log out',
                   icon: Icons.logout,
-                  onPressed: () => onItemPressed(context, index: 5)),
+                  onPressed: () => onItemPressed(context, index: 4)),
             ],
           ),
         ),
@@ -97,12 +98,16 @@ class _MenuState extends State<Menu> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const NearbyConnect()));
         break;
+      case 1:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Connections()));
+        break;
       case 2:
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Profile()));
         break;
 
-      case 5:
+      case 4:
         sp.userSignOut();
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -128,7 +133,7 @@ class _MenuState extends State<Menu> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(sp.name!,
+                Text(sp.fullname!,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 16,
