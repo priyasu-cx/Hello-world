@@ -1,4 +1,5 @@
 import 'package:connecten/utils/colors.dart';
+import 'package:connecten/view/Nav_Drawer/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sliding_switch/sliding_switch.dart';
@@ -20,24 +21,23 @@ class _ProfileState extends State<Profile> {
     final sp = context.read<SignInProvider>();
 
     return Scaffold(
+      drawer: const Menu(),
       appBar: AppBar(
         toolbarHeight: Get.height * 0.12,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         shadowColor: primarybgcolor,
         elevation: 0.0,
-        leading: IconButton(
+        leading: Builder(builder: (context) =>IconButton(
           splashRadius: 1,
           padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
-          onPressed: () {
-            print("Menu pressed");
-          },
+          onPressed: () {Scaffold.of(context).openDrawer();},
           icon: FaIcon(
             FontAwesomeIcons.bars,
             color: arrowcolor,
           ),
           alignment: Alignment.centerLeft,
-        ),
+        ),),
       ),
       body: Column(
         children: [
