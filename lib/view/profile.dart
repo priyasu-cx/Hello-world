@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sliding_switch/sliding_switch.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/sign_in_provider.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -14,8 +17,9 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    final sp = context.read<SignInProvider>();
+
     return Scaffold(
-      //extendBodyBehindAppBar: true,
       appBar: AppBar(
         toolbarHeight: Get.height * 0.12,
         automaticallyImplyLeading: false,
@@ -25,7 +29,9 @@ class _ProfileState extends State<Profile> {
         leading: IconButton(
           splashRadius: 1,
           padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
-          onPressed: () {},
+          onPressed: () {
+            print("Menu pressed");
+          },
           icon: FaIcon(
             FontAwesomeIcons.bars,
             color: arrowcolor,
@@ -60,7 +66,7 @@ class _ProfileState extends State<Profile> {
                     onChanged: (bool value) {
                       print(value);
                     },
-                    height: 20,
+                    height: 25,
                     animationDuration: const Duration(milliseconds: 400),
                     onTap: () {},
                     onDoubleTap: () {},
@@ -85,12 +91,13 @@ class _ProfileState extends State<Profile> {
                         radius: Get.width * 0.1,
                         backgroundColor: primarybgcolor,
                         backgroundImage: AssetImage("assets/Avatar.png"),
+                        foregroundImage: NetworkImage(sp.imageUrl!),
                       ),
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
                       Text(
-                        "Profile Name",
+                        sp.name!,
                         style: TextStyle(
                           letterSpacing: 1,
                           fontSize: 20,
@@ -125,33 +132,31 @@ class _ProfileState extends State<Profile> {
               ],
             ),
           ),
-
           Text(
             "My Links",
             style: TextStyle(
               letterSpacing: 1,
               fontSize: 20,
               fontWeight: FontWeight.w500,
-            ),textAlign: TextAlign.left,
+            ),
+            textAlign: TextAlign.left,
           ),
           Container(
             padding: EdgeInsets.all(20),
             child: Column(
-              children:[
+              children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       social(1, "assets/linkedin.png", "Linkedin", "link"),
                       social(2, "assets/github.png", "Github", "link"),
-                    ]
-                ),
+                    ]),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       social(1, "assets/website.png", "Portfolio", "link"),
-                      social(2, "assets/google1.png", "Google +", "link"),
-                    ]
-                )
+                      social(2, "assets/google1.png", "Twitter", "link"),
+                    ])
               ],
             ),
           )
@@ -159,24 +164,26 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
-  Widget social(index, image, text, link){
-    return Container(
 
-      width: Get.width*0.3,
+  Widget social(index, image, text, link) {
+    return Container(
+      width: Get.width * 0.3,
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Color(0xffeef7fe),
         borderRadius: BorderRadius.circular(20),
-
       ),
       child: Column(
-        children:[
-          Image.asset(image,height: 40,width: 40,),
+        children: [
+          Image.asset(
+            image,
+            height: 40,
+            width: 40,
+          ),
           Text(text),
         ],
       ),
     );
   }
-
 }
