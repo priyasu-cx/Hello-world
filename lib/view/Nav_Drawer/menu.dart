@@ -1,8 +1,10 @@
+import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/drawer_item.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 
 class Menu extends StatefulWidget {
@@ -16,6 +18,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
+    final sp = context.read<SignInProvider>();
     return Drawer(
       child: Material(
         color: secbgcolor,
@@ -77,18 +80,19 @@ class _MenuState extends State<Menu> {
   }
 
   Widget headerWidget() {
+    final sp = context.read<SignInProvider>();
     const url = 'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg';
     return Row(
       children: [
         CircleAvatar(
           radius: Get.height*0.055,
-          backgroundImage: NetworkImage(url),
+          backgroundImage: NetworkImage(sp.imageUrl!),
         ),
         SizedBox(width: Get.height*0.03,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text('Person name', style: TextStyle(fontSize: 14, color: Colors.black)),
+          children: [
+            Text(sp.name!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
             SizedBox(height: 10,),
             Text('person@email.com', style: TextStyle(fontSize: 14, color: Colors.black))
           ],
