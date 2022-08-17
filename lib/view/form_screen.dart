@@ -28,6 +28,14 @@ class _FormScreenState extends State<FormScreen> {
         nameController.text = value!;
       },
       textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.person),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Name",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
     );
 
     // Designation Field
@@ -39,6 +47,14 @@ class _FormScreenState extends State<FormScreen> {
         designationController.text = value!;
       },
       textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.work),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Designation",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
     );
 
     // Bio Field
@@ -50,6 +66,19 @@ class _FormScreenState extends State<FormScreen> {
         bioController.text = value!;
       },
       textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.school),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Bio",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+
+    // Continue Button
+    final continueButton = Material(
+      
     );
 
     return Scaffold(
