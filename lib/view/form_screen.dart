@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../provider/internet_provider.dart';
 import '../provider/sign_in_provider.dart';
+import '../utils/snack_bar.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key}) : super(key: key);
@@ -21,7 +23,6 @@ class _FormScreenState extends State<FormScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final sp = context.read<SignInProvider>();
 
     // Name field
@@ -87,7 +88,13 @@ class _FormScreenState extends State<FormScreen> {
       color: Color(0xff567DF4),
       borderRadius: BorderRadius.circular(30),
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          handleForm(
+            nameController.text,
+            designationController.text,
+            bioController.text,
+          );
+        },
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width * 0.5,
         child: Text(
@@ -116,10 +123,13 @@ class _FormScreenState extends State<FormScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                      height: 200,
+                      height: 150,
                       child: sp.imageUrl == null
                           ? Image.asset("assets/animation.gif")
-                          : Image.network(sp.imageUrl!),
+                          : CircleAvatar(
+                              radius: 75,
+                              backgroundImage: NetworkImage(sp.imageUrl!),
+                            ),
                     ),
                     SizedBox(
                       height: 45,
@@ -145,5 +155,22 @@ class _FormScreenState extends State<FormScreen> {
         ),
       ),
     );
+  }
+
+  Future handleForm(String? name, String? designation, String? bio) async {
+    final sp = context.read<SignInProvider>();
+    final ip = context.read<InternetProvider>();
+    await ip.checkInternetConnection();
+
+    if (ip.hasInternet == false) {
+      openSnackBar(
+          context, "Check your Internet connection.", Colors.red.shade400);
+    } else {
+      await sp.setFormData(name, designation, bio).then((value) {
+        sp.saveFormDataToFirestore().then((value) {
+          sp.setFormDone();
+        });
+      });
+    }
   }
 }
