@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/view/home_screen.dart';
 import 'package:connecten/view/login_screen.dart';
+import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utils/config.dart';
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ? Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => LoginPage()))
           : Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+              context, MaterialPageRoute(builder: (context) => Profile()));
     }));
   }
 

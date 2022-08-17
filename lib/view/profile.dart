@@ -97,7 +97,7 @@ class _ProfileState extends State<Profile> {
                         height: Get.height * 0.01,
                       ),
                       Text(
-                        sp.name!,
+                        sp.fullname!,
                         style: TextStyle(
                           letterSpacing: 1,
                           fontSize: 20,
@@ -108,7 +108,7 @@ class _ProfileState extends State<Profile> {
                         height: Get.height * 0.01,
                       ),
                       Text(
-                        "Designation",
+                        sp.designation!,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w300,
@@ -118,7 +118,7 @@ class _ProfileState extends State<Profile> {
                         height: Get.height * 0.01,
                       ),
                       Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare pretium placerat ut platea.",
+                        sp.bio!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 13,
