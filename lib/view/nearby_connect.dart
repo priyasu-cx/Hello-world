@@ -50,7 +50,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
               child: Container(
                   height: Get.height*0.6,
                   //height: Get.height*0.5,
-                  child: ListView.builder(itemCount: 2, itemBuilder: (context,i){return Connect();})
+                  child: ListView.builder(itemCount: 2, itemBuilder: (context,i){return Connect("Profile name");})
               ),
             ),
 
@@ -59,27 +59,53 @@ class _NearbyConnectState extends State<NearbyConnect> {
       )
     );
   }
-  Widget Connect(){
+  Widget Connect(name){
     return Container(
-      height: 100,
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.only(bottom: 20),
+      height: Get.height*0.15,
       decoration: BoxDecoration(
         color: Color(0xffEEF7FE),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: Get.width * 0.1,
-                backgroundColor: primarybgcolor,
-                backgroundImage: AssetImage("assets/Avatar.png"),
-                //foregroundImage: NetworkImage(sp.imageUrl!),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: CircleAvatar(
+                  radius: Get.width * 0.08,
+                  backgroundColor: primarybgcolor,
+                  backgroundImage: AssetImage("assets/Avatar.png"),
+                  //foregroundImage: NetworkImage(sp.imageUrl!),
+                ),
               ),
+              Align(
+                alignment: Alignment.center,
+                child: Text(name),
+              )
+
             ],
           ),
           Column(
-            children: [],
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(onPressed: (){}, icon: FaIcon(
+                  FontAwesomeIcons.userPlus,
+                  color: arrowcolor,
+                ),),
+              )
+
+            ],
           )
         ],
       )
