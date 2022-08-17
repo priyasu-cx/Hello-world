@@ -12,6 +12,9 @@ class SignInProvider extends ChangeNotifier {
   bool _isSignedIn = false;
   bool get isSignedIn => _isSignedIn;
 
+  bool _isFormDone = false;
+  bool get isFormDone => _isFormDone;
+
   bool _hasError = false;
   bool get hasError => _hasError;
 
@@ -33,8 +36,42 @@ class SignInProvider extends ChangeNotifier {
   String? _imageUrl;
   String? get imageUrl => _imageUrl;
 
+  String? _fullname;
+  String? get fullname => _fullname;
+
+  String? _designation;
+  String? get designation => _designation;
+
+  String? _bio;
+  String? get bio => _bio;
+
+
   SignInProvider() {
     checkSignInUser();
+  }
+
+  Future setFormData(String? name, String? designation, String? bio) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    _fullname = name;
+    _designation = designation;
+    _bio = bio;
+    shared.setString("fullname", _fullname!);
+    shared.setString("designation", _designation!);
+    shared.setString("bio", _bio!);
+    notifyListeners();
+  }
+
+  Future setFormDone() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    shared.setBool("form_done", true);
+    _isFormDone = true;
+    notifyListeners();   
+  }
+
+  Future checkFormDone() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    _isFormDone = shared.getBool("form_done") ?? false;
+    notifyListeners();
   }
 
   Future checkSignInUser() async {
@@ -83,14 +120,14 @@ class SignInProvider extends ChangeNotifier {
             _hasError = true;
             notifyListeners();
             break;
-          case "null":
-            _errorCode = "Some unexpected error occurred";
-            _hasError = true;
-            notifyListeners();
-            break;
+          // case "null":
+          //   _errorCode = "Some unexpected error occurred";
+          //   _hasError = true;
+          //   notifyListeners();
+          //   break;
 
           default:
-            _errorCode = e.toString();
+            _errorCode = "Some unexpected error occurred";
             _hasError = true;
             notifyListeners();
             break;
@@ -116,6 +153,18 @@ class SignInProvider extends ChangeNotifier {
         });
   }
 
+  Future getFormDataFromFirestore() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_uid)
+        .get()
+        .then((DocumentSnapshot snapshot) async {
+          _fullname = snapshot["fullname"];
+          _designation = snapshot["designation"];
+          _bio = snapshot["bio"];
+        });
+  }
+
   Future saveDataToFirestore() async {
     final DocumentReference ref = FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.set({
@@ -123,6 +172,16 @@ class SignInProvider extends ChangeNotifier {
       "email":_email,
       "uid":_uid,
       "imageUrl": _imageUrl,
+    });
+    notifyListeners();
+  }
+
+  Future saveFormDataToFirestore() async {
+    final DocumentReference ref = FirebaseFirestore.instance.collection("users").doc(_uid);
+    await ref.update({
+      "fullname": _fullname,
+      "designation":_designation,
+      "bio":_bio,
     });
     notifyListeners();
   }
