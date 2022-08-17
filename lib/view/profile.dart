@@ -1,4 +1,5 @@
 import 'package:connecten/utils/colors.dart';
+import 'package:connecten/view/Nav_Drawer/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sliding_switch/sliding_switch.dart';
@@ -15,6 +16,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const Menu(),
       //extendBodyBehindAppBar: true,
       appBar: AppBar(
         toolbarHeight: Get.height * 0.12,
@@ -22,16 +24,16 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.transparent,
         shadowColor: primarybgcolor,
         elevation: 0.0,
-        leading: IconButton(
+        leading: Builder(builder: (context) =>IconButton(
           splashRadius: 1,
           padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
-          onPressed: () {},
+          onPressed: () {Scaffold.of(context).openDrawer();},
           icon: FaIcon(
             FontAwesomeIcons.bars,
             color: arrowcolor,
           ),
           alignment: Alignment.centerLeft,
-        ),
+        ),),
       ),
       body: Column(
         children: [
@@ -60,7 +62,7 @@ class _ProfileState extends State<Profile> {
                     onChanged: (bool value) {
                       print(value);
                     },
-                    height: 20,
+                    height: 25,
                     animationDuration: const Duration(milliseconds: 400),
                     onTap: () {},
                     onDoubleTap: () {},
