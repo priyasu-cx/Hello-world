@@ -1,4 +1,5 @@
 
+import 'package:connecten/view/form_screen.dart';
 import 'package:connecten/view/login_screen.dart';
 import 'package:connecten/provider/internet_provider.dart';
 import 'package:connecten/provider/sign_in_provider.dart';
@@ -40,5 +41,5 @@ class MyApp extends StatelessWidget {
   }
 
   //LandingPage() => LoginPage();
-  LandingPage() => SplashScreen();
+  LandingPage() => LoginPage();
 }
