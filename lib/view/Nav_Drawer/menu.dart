@@ -2,6 +2,7 @@ import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/drawer_item.dart';
 import 'package:connecten/view/login_screen.dart';
+import 'package:connecten/view/nearby_connect.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -92,6 +93,10 @@ class _MenuState extends State<Menu> {
     Navigator.pop(context);
 
     switch (index) {
+      case 0:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const NearbyConnect()));
+        break;
       case 2:
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Profile()));
