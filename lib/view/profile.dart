@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sliding_switch/sliding_switch.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-
 import '../provider/sign_in_provider.dart';
 
 class Profile extends StatefulWidget {
@@ -159,7 +158,7 @@ class _ProfileState extends State<Profile> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       social(1, "assets/website.png", "Portfolio", "link"),
-                      social(2, "assets/google1.png", "Twitter", "link"),
+                      social(2, "assets/twitter.png", "Twitter", "link"),
                     ])
               ],
             ),
@@ -172,20 +171,45 @@ class _ProfileState extends State<Profile> {
   Widget social(index, image, text, link) {
     return Container(
       width: Get.width * 0.3,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Color(0xffeef7fe),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          Image.asset(
-            image,
-            height: 40,
-            width: 40,
+          Container(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              alignment: Alignment.topRight,
+              onPressed: () {},
+              icon: FaIcon(
+                FontAwesomeIcons.penToSquare,
+                color: arrowcolor,
+              ),
+              iconSize: 15,
+            ),
           ),
-          Text(text),
+          Column(
+            children: [
+              Image.asset(
+                image,
+                height: 25,
+                width: 25,
+              ),
+              SizedBox(height: Get.height * 0.01),
+              Text(
+                text,
+                //textAlign: TextAlign.start,
+                style: TextStyle(
+                  letterSpacing: 1,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
