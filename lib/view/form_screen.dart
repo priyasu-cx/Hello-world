@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/sign_in_provider.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key}) : super(key: key);
@@ -19,6 +21,9 @@ class _FormScreenState extends State<FormScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final sp = context.read<SignInProvider>();
+
     // Name field
     final nameField = TextFormField(
       autofocus: false,
@@ -78,7 +83,22 @@ class _FormScreenState extends State<FormScreen> {
 
     // Continue Button
     final continueButton = Material(
-      
+      elevation: 5,
+      color: Color(0xff567DF4),
+      borderRadius: BorderRadius.circular(30),
+      child: MaterialButton(
+        onPressed: () {},
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        minWidth: MediaQuery.of(context).size.width * 0.5,
+        child: Text(
+          " Continue ",
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
 
     return Scaffold(
@@ -87,14 +107,38 @@ class _FormScreenState extends State<FormScreen> {
         child: SingleChildScrollView(
           child: Container(
             color: Colors.white,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  nameField,
-                  designationField,
-                  bioField,
-                ],
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 200,
+                      child: sp.imageUrl == null
+                          ? Image.asset("assets/animation.gif")
+                          : Image.network(sp.imageUrl!),
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    nameField,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    designationField,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    bioField,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    continueButton,
+                  ],
+                ),
               ),
             ),
           ),
