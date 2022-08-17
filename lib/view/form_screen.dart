@@ -8,21 +8,19 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-
   // Form key
   final _formKey = GlobalKey<FormState>();
 
   // Editing controller
   final TextEditingController nameController = new TextEditingController();
-  final TextEditingController designationController = new TextEditingController();
+  final TextEditingController designationController =
+      new TextEditingController();
   final TextEditingController bioController = new TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
-
     // Name field
-    final nameField  = TextFormField(
+    final nameField = TextFormField(
       autofocus: false,
       controller: nameController,
       keyboardType: TextInputType.name,
@@ -33,7 +31,7 @@ class _FormScreenState extends State<FormScreen> {
     );
 
     // Designation Field
-    final designationField  = TextFormField(
+    final designationField = TextFormField(
       autofocus: false,
       controller: designationController,
       keyboardType: TextInputType.text,
@@ -44,7 +42,7 @@ class _FormScreenState extends State<FormScreen> {
     );
 
     // Bio Field
-    final bioField  = TextFormField(
+    final bioField = TextFormField(
       autofocus: false,
       controller: bioController,
       keyboardType: TextInputType.text,
@@ -54,6 +52,25 @@ class _FormScreenState extends State<FormScreen> {
       textInputAction: TextInputAction.done,
     );
 
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  nameField,
+                  designationField,
+                  bioField,
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
