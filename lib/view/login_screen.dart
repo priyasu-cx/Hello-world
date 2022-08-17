@@ -1,4 +1,5 @@
 
+import 'package:connecten/view/form_screen.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -147,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                 sp
                     .saveDataToSharedPreferences()
                     .then((value) => sp.setSignIn().then((value) {
-                          handleAfterSignIn();
+                          handleNewSignIn();
                         }));
               });
             }
@@ -155,6 +156,13 @@ class _LoginPageState extends State<LoginPage> {
         }
       });
     }
+  }
+
+  handleNewSignIn() {
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => FormScreen()));
+    });
   }
 
   handleAfterSignIn() {

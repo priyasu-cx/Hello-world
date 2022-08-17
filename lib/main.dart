@@ -41,5 +41,5 @@ class MyApp extends StatelessWidget {
   }
 
   //LandingPage() => LoginPage();
-  LandingPage() => FormScreen();
+  LandingPage() => LoginPage();
 }

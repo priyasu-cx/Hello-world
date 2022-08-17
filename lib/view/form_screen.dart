@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/sign_in_provider.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key}) : super(key: key);
@@ -8,21 +10,22 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-
   // Form key
   final _formKey = GlobalKey<FormState>();
 
   // Editing controller
   final TextEditingController nameController = new TextEditingController();
-  final TextEditingController designationController = new TextEditingController();
+  final TextEditingController designationController =
+      new TextEditingController();
   final TextEditingController bioController = new TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
 
+    final sp = context.read<SignInProvider>();
+
     // Name field
-    final nameField  = TextFormField(
+    final nameField = TextFormField(
       autofocus: false,
       controller: nameController,
       keyboardType: TextInputType.name,
@@ -30,10 +33,18 @@ class _FormScreenState extends State<FormScreen> {
         nameController.text = value!;
       },
       textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.person),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Name",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
     );
 
     // Designation Field
-    final designationField  = TextFormField(
+    final designationField = TextFormField(
       autofocus: false,
       controller: designationController,
       keyboardType: TextInputType.text,
@@ -41,10 +52,18 @@ class _FormScreenState extends State<FormScreen> {
         designationController.text = value!;
       },
       textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.work),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Designation",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
     );
 
     // Bio Field
-    final bioField  = TextFormField(
+    final bioField = TextFormField(
       autofocus: false,
       controller: bioController,
       keyboardType: TextInputType.text,
@@ -52,8 +71,79 @@ class _FormScreenState extends State<FormScreen> {
         bioController.text = value!;
       },
       textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.school),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Bio",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
     );
 
-    return Scaffold();
+    // Continue Button
+    final continueButton = Material(
+      elevation: 5,
+      color: Color(0xff567DF4),
+      borderRadius: BorderRadius.circular(30),
+      child: MaterialButton(
+        onPressed: () {},
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        minWidth: MediaQuery.of(context).size.width * 0.5,
+        child: Text(
+          " Continue ",
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 200,
+                      child: sp.imageUrl == null
+                          ? Image.asset("assets/animation.gif")
+                          : Image.network(sp.imageUrl!),
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    nameField,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    designationField,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    bioField,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    continueButton,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
