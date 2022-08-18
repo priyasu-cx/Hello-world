@@ -23,9 +23,8 @@ dependencies:
   font_awesome_flutter:
   sliding_switch:
   shared_preferences: ^2.0.15
-  flutter_nearby_connections:
-  flutter_styled_toast:
-  device_info_plus:
+  nearby_connections: ^3.2.0
+  image_picker:
 
 dev_dependencies:
   flutter_lints: ^2.0.0
