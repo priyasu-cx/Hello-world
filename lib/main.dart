@@ -1,4 +1,3 @@
-
 import 'package:connecten/view/form_screen.dart';
 import 'package:connecten/view/login_screen.dart';
 import 'package:connecten/provider/internet_provider.dart';
@@ -10,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
+import 'provider/connection_provider.dart';
 
 void main() async {
   // Initialize the application
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => SignInProvider()),
         ChangeNotifierProvider(create: (context) => InternetProvider()),
+        ChangeNotifierProvider(create: (context) => ConnectionProvider()),
       ],
       child: GetMaterialApp(
         title: 'ConnecTen',

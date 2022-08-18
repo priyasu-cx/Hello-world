@@ -1,4 +1,3 @@
-import 'dart:js';
 import 'package:provider/provider.dart';
 import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ class ConnectionProvider extends ChangeNotifier {
     await getLocationPermission();
     await getBluetoothPermission();
     await checkLocationEnabled();
+    notifyListeners();
   }
 
   Future enableAdvertising(String? uid) async {
@@ -34,6 +34,7 @@ class ConnectionProvider extends ChangeNotifier {
     } catch (exception) {
       print(exception);
     }
+    notifyListeners();
   }
 
   void onConnectionInit(String id, ConnectionInfo info) {
@@ -42,23 +43,27 @@ class ConnectionProvider extends ChangeNotifier {
 
   Future disableAdvertising() async {
     await Nearby().stopAdvertising();
+    notifyListeners();
   }
 
   Future getLocationPermission() async {
     if (await Nearby().checkLocationPermission() == false) {
       await Nearby().askLocationPermission();
     }
+    notifyListeners();
   }
 
   Future getBluetoothPermission() async {
     if (await Nearby().checkBluetoothPermission() == false) {
       Nearby().askBluetoothPermission();
     }
+    notifyListeners();
   }
 
   Future checkLocationEnabled() async {
     if (await Nearby().checkLocationEnabled() == false) {
       await Nearby().enableLocationServices();
     }
+    notifyListeners();
   }
 }
