@@ -1,3 +1,4 @@
+import 'package:connecten/provider/connection_provider.dart';
 import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/menu.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final sp = context.read<SignInProvider>();
+    final cp = context.read<ConnectionProvider>();
 
     return Scaffold(
         drawer: const Menu(),
@@ -69,7 +71,11 @@ class _ProfileState extends State<Profile> {
                         value: false,
                         width: 50,
                         onChanged: (bool value) {
-                          print(value);
+                          if (value == true) {
+                            cp.enableAdvertising(sp.uid);
+                          } else {
+                            cp.disableAdvertising();
+                          }
                         },
                         height: 25,
                         animationDuration: const Duration(milliseconds: 400),
