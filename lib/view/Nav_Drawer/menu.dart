@@ -4,6 +4,7 @@ import 'package:connecten/view/Nav_Drawer/drawer_item.dart';
 import 'package:connecten/view/connections.dart';
 import 'package:connecten/view/login_screen.dart';
 import 'package:connecten/view/nearby_connect.dart';
+import 'package:connecten/view/nearby_test.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -105,6 +106,11 @@ class _MenuState extends State<Menu> {
       case 2:
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Profile()));
+        break;
+
+      case 3:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Nearby_test()));
         break;
 
       case 4:
