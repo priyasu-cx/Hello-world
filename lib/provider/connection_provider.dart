@@ -26,10 +26,21 @@ class ConnectionProvider extends ChangeNotifier {
         strategy,
         onEndpointFound: (id, name, serviceId) {
           Get.snackbar(
-              "On Endpoint Found", "Id $id, Name $name, Service Id $serviceId");
+            "On Endpoint Found",
+            "Id $id, Name $name, Service Id $serviceId",
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.black,
+          );
         },
         onEndpointLost: (id) {
-          Get.snackbar("On endpoint lost", "Lost discovered Endpoint: id $id");
+          Get.snackbar(
+            "On endpoint lost",
+            "Lost discovered Endpoint: id $id",
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.black,
+          );
         },
       );
     } catch (e) {
