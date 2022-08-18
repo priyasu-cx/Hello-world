@@ -156,7 +156,7 @@ class _MyBodyState extends State<Body> {
             Wrap(
               children: <Widget>[
                 ElevatedButton(
-                  child: Text("Start Advertising"),
+                  child: Text("Advertising"),
                   onPressed: () async {
                     try {
                       bool a = await Nearby().startAdvertising(
