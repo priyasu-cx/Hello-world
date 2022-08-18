@@ -38,7 +38,7 @@ class _ConnectionsState extends State<Connections> {
           child: Column(
             children: [
               Text(
-                "Nearby Connections",
+                "Connections",
                 style: TextStyle(
                   letterSpacing: 1,
                   fontSize: 20,
@@ -78,7 +78,7 @@ class _ConnectionsState extends State<Connections> {
             //textAlign: TextAlign.start,
             style: TextStyle(
               letterSpacing: 1,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
