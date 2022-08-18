@@ -73,8 +73,10 @@ class _ProfileState extends State<Profile> {
                         onChanged: (bool value) {
                           if (value == true) {
                             cp.enableAdvertising(sp.uid);
+                            cp.disableDiscovery();
                           } else {
                             cp.disableAdvertising();
+                            cp.enableDiscovery(sp.uid);
                           }
                         },
                         height: 25,

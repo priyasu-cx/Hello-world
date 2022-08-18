@@ -3,6 +3,7 @@ import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nearby_connections/nearby_connections.dart';
+import 'package:get/get.dart';
 
 class ConnectionProvider extends ChangeNotifier {
   final Strategy strategy = Strategy.P2P_STAR;
@@ -16,6 +17,28 @@ class ConnectionProvider extends ChangeNotifier {
     await getBluetoothPermission();
     await checkLocationEnabled();
     notifyListeners();
+  }
+
+  Future enableDiscovery(String? uid) async {
+    try {
+      bool a = await Nearby().startDiscovery(
+        uid!,
+        strategy,
+        onEndpointFound: (id, name, serviceId) {
+          Get.snackbar(
+              "On Endpoint Found", "Id $id, Name $name, Service Id $serviceId");
+        },
+        onEndpointLost: (id) {
+          Get.snackbar("On endpoint lost","Lost discovered Endpoint: id $id");
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future disableDiscovery() async {
+    await Nearby().stopDiscovery();
   }
 
   Future enableAdvertising(String? uid) async {
