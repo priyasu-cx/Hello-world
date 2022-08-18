@@ -29,16 +29,18 @@ class ConnectionProvider extends ChangeNotifier {
               "On Endpoint Found", "Id $id, Name $name, Service Id $serviceId");
         },
         onEndpointLost: (id) {
-          Get.snackbar("On endpoint lost","Lost discovered Endpoint: id $id");
+          Get.snackbar("On endpoint lost", "Lost discovered Endpoint: id $id");
         },
       );
     } catch (e) {
       print(e);
     }
+    notifyListeners();
   }
 
   Future disableDiscovery() async {
     await Nearby().stopDiscovery();
+    notifyListeners();
   }
 
   Future enableAdvertising(String? uid) async {
