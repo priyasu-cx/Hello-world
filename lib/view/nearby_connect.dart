@@ -65,7 +65,8 @@ class _NearbyConnectState extends State<NearbyConnect> {
                     child: ListView.builder(
                         itemCount: cp.connections.length,
                         itemBuilder: (context, i) {
-                          Future<Map<String,String?>> userdata = sp.fetchUserDataFirestore(cp.connections[i]);
+                          Get.snackbar("Hello", sp.fetchUserDataFirestore(cp.connections[i]).toString());
+                          //Future<Map<String,String?>> userdata = sp.fetchUserDataFirestore(cp.connections[i]);
                           //return Connect(userdata["fullname"], userdata["designation"]);
 
                           return Connect("Profile name", "Designation");
