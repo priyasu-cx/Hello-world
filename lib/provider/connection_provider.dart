@@ -43,19 +43,6 @@ class ConnectionProvider extends ChangeNotifier {
           if (_connections.contains(name) == false) {
             _connections.add(name);
           }
-          showModalBottomSheet(
-              context: context,
-              builder: (builder) {
-                return Center(
-                  child: Column(
-                    children: [
-                      Text(id),
-                      Text(name),
-                      Text(serviceId),
-                    ],
-                  ),
-                );
-              });
           Get.snackbar("New Connection Found", _connections.toString());
         },
         onEndpointLost: (id) {
