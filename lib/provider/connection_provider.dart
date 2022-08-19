@@ -19,12 +19,25 @@ class ConnectionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future enableDiscovery(String? uid) async {
+  Future enableDiscovery(String? uid, context) async {
     try {
       bool a = await Nearby().startDiscovery(
         uid!,
         strategy,
         onEndpointFound: (id, name, serviceId) {
+          showModalBottomSheet(
+              context: context,
+              builder: (builder) {
+                return Center(
+                  child: Column(
+                    children: [
+                      Text(id),
+                      Text(name),
+                      Text(serviceId),
+                    ],
+                  ),
+                );
+              });
           Get.snackbar(
             "On Endpoint Found",
             "Id $id, Name $name, Service Id $serviceId",
