@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:connecten/provider/sign_in_provider.dart';
-import 'package:connecten/view/home_screen.dart';
 import 'package:connecten/view/login_screen.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +21,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(Duration(seconds: 2), (() {
+      // print(sp.checkSignInUser);
+      print(sp.isSignedIn);
       sp.isSignedIn == false
           ? Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => LoginPage()))

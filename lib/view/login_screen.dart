@@ -2,11 +2,9 @@ import 'package:connecten/view/form_screen.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:connecten/provider/internet_provider.dart';
 import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/utils/snack_bar.dart';
-import 'package:connecten/view/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -140,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           sp.chechUserExists().then((value) async {
             if (value == true) {
+              sp.setSignIn();
               sp.getUserDataFromFirestore();
               handleAfterSignIn();
             } else {

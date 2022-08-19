@@ -16,7 +16,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   @override
   Widget build(BuildContext context) {
     final sp = context.read<SignInProvider>();
@@ -183,13 +182,25 @@ class _ProfileState extends State<Profile> {
                       padding: EdgeInsets.all(40),
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            radius: Get.width * 0.1,
-                            backgroundColor: primarybgcolor,
-                            backgroundImage: AssetImage("assets/Avatar.png"),
-                            //foregroundImage: sp.imageUrl == null ? AssetImage("assets/Avatar.png") : NetworkImage(sp.imageUrl),
-                            foregroundImage: NetworkImage(sp.imageUrl!),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.28,
+                            child: sp.imageUrl == null
+                                ? Image.asset("assets/animation.gif")
+                                : CircleAvatar(
+                                    radius: 75,
+                                    backgroundImage: NetworkImage(sp.imageUrl!),
+                                  ),
                           ),
+                          // CircleAvatar(
+                          //   radius: Get.width * 0.1,
+                          //   backgroundColor: primarybgcolor,
+                          //   backgroundImage: AssetImage("assets/Avatar.png"),
+                          //   foregroundImage: sp.imageUrl == null
+                          //       ? AssetImage("assets/animation.gif")
+                          //       : NetworkImage(sp.imageUrl),
+                          //   //foregroundImage: sp.imageUrl == null ? AssetImage("assets/Avatar.png") : NetworkImage(sp.imageUrl),
+                          //   // foregroundImage: NetworkImage(sp.imageUrl!),
+                          // ),
                           SizedBox(
                             height: Get.height * 0.01,
                           ),
@@ -245,14 +256,18 @@ class _ProfileState extends State<Profile> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          social(context, 1, "assets/linkedin.png", "Linkedin", "link"),
-                          social(context, 2, "assets/github.png", "Github", "link"),
+                          social(context, 1, "assets/linkedin.png", "Linkedin",
+                              "link"),
+                          social(context, 2, "assets/github.png", "Github",
+                              "link"),
                         ]),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          social(context,3, "assets/website.png", "Portfolio", "link"),
-                          social(context,4, "assets/twitter.png", "Twitter", "link"),
+                          social(context, 3, "assets/website.png", "Portfolio",
+                              "link"),
+                          social(context, 4, "assets/twitter.png", "Twitter",
+                              "link"),
                         ]),
                     SizedBox(
                       height: Get.height * 0.02,
@@ -352,7 +367,6 @@ class _ProfileState extends State<Profile> {
   }
 
   openDialog(image, text, index) => showDialog(
-
         context: context,
         builder: (context) {
           final sp = context.read<SignInProvider>();
@@ -362,67 +376,77 @@ class _ProfileState extends State<Profile> {
           // myController.text == "" ? myController.text = "Give link here": myController.text = index == 1 ? sp.linkedIn! : index == 2 ? sp.github! :
           // index == 3 ? sp.portfolio!: sp.twitter!;
           return Dialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.topCenter,
-              children: [
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    height: 200,
-                    child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
-                        child: Column(children: [
-                          Text(
-                            text + " Link",
-                            style: TextStyle(
-                              letterSpacing: 1,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.topCenter,
+                children: [
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 200,
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                          child: Column(children: [
+                            Text(
+                              text + " Link",
+                              style: TextStyle(
+                                letterSpacing: 1,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          TextFormField(
-                            // initialValue: index == 1 ? sp.linkedIn! : index == 2 ? sp.github! :
-                            // index == 3 ? sp.portfolio!: sp.twitter!,
-                            controller: myController,
-                            autofocus: true,
-                            decoration: InputDecoration(hintText: index == 1 ?"https://www.linkedin.com/":
-                            index == 2 ? "https://github.com/":
-                            index == 3 ? "https://yoursite.com/" :
-                                "https://twitter.com/"
+                            TextFormField(
+                              // initialValue: index == 1 ? sp.linkedIn! : index == 2 ? sp.github! :
+                              // index == 3 ? sp.portfolio!: sp.twitter!,
+                              controller: myController,
+                              autofocus: true,
+                              decoration: InputDecoration(
+                                  hintText: index == 1
+                                      ? "https://www.linkedin.com/"
+                                      : index == 2
+                                          ? "https://github.com/"
+                                          : index == 3
+                                              ? "https://yoursite.com/"
+                                              : "https://twitter.com/"),
                             ),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                index == 1 ? sp.setLinkedIn(myController.text):
-                                index == 2 ? sp.setGithub(myController.text):
-                                    index == 3 ? sp.setPortfolio(myController.text):
-                                        sp.setTwitter(myController.text);
-                                Get.snackbar("Link Submitted", "");
-                              },
-                              child: Text(
-                                'SUBMIT',
-                                style: TextStyle(
-                                  letterSpacing: 1,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ))
-                        ]))),
-                Positioned(
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xffced5ff),
-                    radius: 50,
-                    child: Image.asset(
-                      image,
-                      height: 40,
-                      width: 40,
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  index == 1
+                                      ? sp.setLinkedIn(myController.text)
+                                      : index == 2
+                                          ? sp.setGithub(myController.text)
+                                          : index == 3
+                                              ? sp.setPortfolio(
+                                                  myController.text)
+                                              : sp.setTwitter(
+                                                  myController.text);
+                                  Get.snackbar("Link Submitted", "");
+                                },
+                                child: Text(
+                                  'SUBMIT',
+                                  style: TextStyle(
+                                    letterSpacing: 1,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ))
+                          ]))),
+                  Positioned(
+                    child: CircleAvatar(
+                      backgroundColor: Color(0xffced5ff),
+                      radius: 50,
+                      child: Image.asset(
+                        image,
+                        height: 40,
+                        width: 40,
+                      ),
                     ),
-                  ),
-                  top: -50,
-                )
-              ],
-            ));},
+                    top: -50,
+                  )
+                ],
+              ));
+        },
       );
 }
