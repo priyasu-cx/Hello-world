@@ -129,7 +129,7 @@ class _FormScreenState extends State<FormScreen> {
                           ? Image.asset("assets/animation.gif")
                           : CircleAvatar(
                               radius: 75,
-                              backgroundImage: NetworkImage(sp.imageUrl!),
+                              backgroundImage: NetworkImage(sp.imageUrl),
                             ),
                     ),
                     SizedBox(
@@ -158,7 +158,7 @@ class _FormScreenState extends State<FormScreen> {
     );
   }
 
-  Future handleForm(String? name, String? designation, String? bio) async {
+  Future handleForm(String name, String designation, String bio) async {
     final sp = context.read<SignInProvider>();
     final ip = context.read<InternetProvider>();
     await ip.checkInternetConnection();

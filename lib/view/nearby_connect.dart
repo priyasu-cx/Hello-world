@@ -4,6 +4,7 @@ import 'package:connecten/view/Nav_Drawer/menu.dart';
 import 'package:connecten/view/profile_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../provider/sign_in_provider.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +31,26 @@ class _NearbyConnectState extends State<NearbyConnect> {
         
         // Snackbar e uid print kora
         // -------------------------------------------------------------------------------------------
-        print(uid);
+        Get.snackbar("Uid", uid);
+        //print(uid);
       }
       return allUserData;
     }
 
+    // Future fetchuserdata(var uid){
+    //   await FirebaseFirestore.instance
+    //       .collection("users")
+    //       .doc(uid)
+    //       .get()
+    //       .then((DocumentSnapshot snapshot) async {
+    //     _fullname = snapshot["fullname"];
+    //     _imageUrl = snapshot["imageUrl"];
+    //     _linkedIn = snapshot["linkedIn"];
+    //     _github = snapshot["github"];
+    //     _portfolio = snapshot["portfolio"];
+    //     _twitter = snapshot["twitter"];
+    //   });
+    // }
 
     void getdata() async {
       allUserData = await getallData(cp.connections);
