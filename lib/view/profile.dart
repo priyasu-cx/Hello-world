@@ -3,6 +3,7 @@ import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_switch/sliding_switch.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -16,14 +17,30 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  var fullname;
+  var imageUrl;
+  var designation;
+  var bio;
+
+
+  Future getdata() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    fullname = sp.getString("fullname");
+    imageUrl = sp.getString("imageUrl");
+    designation = sp.getString("designation");
+    bio = sp.getString("bio");
+  }
+
   @override
   Widget build(BuildContext context) {
     final sp = context.read<SignInProvider>();
     final cp = context.read<ConnectionProvider>();
-
-    setState(() {
-      cp.enableDiscovery(sp.uid, context);
-    });
+    cp.enableDiscovery(sp.uid, context);
+    Future.delayed(Duration(seconds: 10));
+    // getallData();
+    // var imageUrl = sp.imageUrl!;
+    // var degignation = sp.designation!;
+    // var bio = sp.bio!;
 
     return Scaffold(
         drawer: const Menu(),
@@ -118,13 +135,13 @@ class _ProfileState extends State<Profile> {
                         value: false,
                         width: 50,
                         onChanged: (bool value) {
-                          if (value == true) {
-                            cp.enableAdvertising(sp.uid);
-                            cp.disableDiscovery();
-                          } else {
-                            cp.disableAdvertising();
-                            cp.enableDiscovery(sp.uid, context);
-                          }
+                          // if (value == true) {
+                          //   cp.enableAdvertising(sp.uid);
+                          //   cp.disableDiscovery();
+                          // } else {
+                          //   cp.disableAdvertising();
+                          //   cp.enableDiscovery(sp.uid, context);
+                          // }
                         },
                         height: 25,
                         animationDuration: const Duration(milliseconds: 400),
@@ -184,12 +201,13 @@ class _ProfileState extends State<Profile> {
                         children: [
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.28,
-                            child: sp.imageUrl == null
-                                ? Image.asset("assets/animation.gif")
-                                : CircleAvatar(
-                                    radius: 75,
-                                    backgroundImage: NetworkImage(sp.imageUrl!),
-                                  ),
+                            child: Image.asset("assets/animation.gif"),
+                            // sp.imageUrl == null
+                            //     ? Image.asset("assets/animation.gif")
+                            //     : CircleAvatar(
+                            //         radius: 75,
+                            //         backgroundImage: NetworkImage(sp.imageUrl!),
+                            //       ),
                           ),
                           // CircleAvatar(
                           //   radius: Get.width * 0.1,
@@ -205,7 +223,8 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            sp.fullname!,
+                            // sp.fullname!,
+                            "hello",
                             style: TextStyle(
                               letterSpacing: 1,
                               fontSize: 20,
@@ -216,7 +235,8 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            sp.designation!,
+                            // sp.designation!,
+                            "designation",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w300,
@@ -226,7 +246,8 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            sp.bio!,
+                            // sp.bio!,
+                            "Bios",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 13,
@@ -288,6 +309,8 @@ class _ProfileState extends State<Profile> {
           ),
         ));
   }
+
+  Future getallData() async {}
 
   // Future openDialog(image, text) => showDialog(
   //     context: context,

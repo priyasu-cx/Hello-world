@@ -30,7 +30,7 @@ class ConnectionProvider extends ChangeNotifier {
 
   Future getConnectionData() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
-    _connections = shared.getStringList("connections")!;
+    _connections = shared.getStringList("connections") ?? [];
     notifyListeners();
   }
 

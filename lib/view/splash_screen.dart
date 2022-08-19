@@ -24,10 +24,14 @@ class _SplashScreenState extends State<SplashScreen> {
       // print(sp.checkSignInUser);
       print(sp.isSignedIn);
       sp.isSignedIn == false
-          ? Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => LoginPage()))
-          : Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Profile()));
+          ? Future.delayed(Duration(seconds: 1)).then((value) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+            })
+          : Future.delayed(Duration(seconds: 1)).then((value) {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Profile()));
+            });
     }));
   }
 

@@ -27,8 +27,8 @@ class _NearbyConnectState extends State<NearbyConnect> {
       List<Map<String, String?>> allUserData = [];
 
       for (var uid in uidList) {
-        var data = sp.fetchUserDataFirestore(uid.toString());
-        print(data);
+        var data = await sp.fetchUserDataFirestore(uid.toString());
+        print(data["fullname"]);
       }
       return allUserData;
     }
