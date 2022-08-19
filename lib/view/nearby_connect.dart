@@ -16,11 +16,25 @@ class NearbyConnect extends StatefulWidget {
 }
 
 class _NearbyConnectState extends State<NearbyConnect> {
-
   @override
   Widget build(BuildContext context) {
     final cp = context.read<ConnectionProvider>();
     final sp = context.read<SignInProvider>();
+    bool isDone = false;
+
+    Future getallData(List<String> uidList) async {
+      List<Map<String, String?>> allUserData = [];
+
+      for (var uid in uidList) {
+        // allUserData.add(sp.fetchUserDataFirestore(uid));
+        sp.fetchUserDataFirestore(uid);
+      }
+      return allUserData;
+    }
+
+    // setState(() async {
+    //   List<Map<String, String?>> allUserData = await getallData(cp.connections);
+    // });
 
     return Scaffold(
         drawer: const Menu(),
@@ -63,9 +77,9 @@ class _NearbyConnectState extends State<NearbyConnect> {
                     height: Get.height * 0.6,
                     //height: Get.height*0.5,
                     child: ListView.builder(
-                        itemCount: cp.connections.length,
+                        itemCount: 2,
                         itemBuilder: (context, i) {
-                          Get.snackbar("Hello", sp.fetchUserDataFirestore(cp.connections[i]).toString());
+                          //Get.snackbar("Hello", sp.fetchUserDataFirestore(cp.connections[i]).toString());
                           //Future<Map<String,String?>> userdata = sp.fetchUserDataFirestore(cp.connections[i]);
                           //return Connect(userdata["fullname"], userdata["designation"]);
 
@@ -138,7 +152,9 @@ class _NearbyConnectState extends State<NearbyConnect> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ProfileDialog(name, context);
+                    },
                     icon: FaIcon(
                       FontAwesomeIcons.userPlus,
                       color: arrowcolor,
