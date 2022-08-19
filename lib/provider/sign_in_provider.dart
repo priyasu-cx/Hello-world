@@ -297,10 +297,6 @@ class SignInProvider extends ChangeNotifier {
     _github = sp.getString("github");
     _portfolio = sp.getString("portfolio");
     _twitter = sp.getString("twitter");
-
-    print(_name);
-    print(_email);
-    print(_imageUrl);
   }
 
   // Check if user exists or not

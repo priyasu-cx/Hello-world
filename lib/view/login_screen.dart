@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           sp.chechUserExists().then((value) async {
             if (value == true) {
-              sp.setSignIn();
+              // sp.setSignIn();
               sp.getUserDataFromFirestore();
               handleAfterSignIn();
             } else {

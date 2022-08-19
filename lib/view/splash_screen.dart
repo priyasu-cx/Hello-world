@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/view/login_screen.dart';
+import 'package:connecten/view/nearby_connect.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
             })
           : Future.delayed(Duration(seconds: 1)).then((value) {
               Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Profile()));
+                  context, MaterialPageRoute(builder: (context) => NearbyConnect()));
             });
     }));
   }
