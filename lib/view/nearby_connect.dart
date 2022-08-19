@@ -20,21 +20,27 @@ class _NearbyConnectState extends State<NearbyConnect> {
   Widget build(BuildContext context) {
     final cp = context.read<ConnectionProvider>();
     final sp = context.read<SignInProvider>();
+    late List<Map<String, String?>> allUserData;
     bool isDone = false;
 
     Future getallData(List<String> uidList) async {
       List<Map<String, String?>> allUserData = [];
 
       for (var uid in uidList) {
-        // allUserData.add(sp.fetchUserDataFirestore(uid));
-        sp.fetchUserDataFirestore(uid);
+        var data = await sp.fetchUserDataFirestore(uid.toString());
+        print(data["fullname"]);
       }
       return allUserData;
     }
 
-    // setState(() async {
-    //   List<Map<String, String?>> allUserData = await getallData(cp.connections);
-    // });
+
+    void getdata() async {
+      allUserData = await getallData(cp.connections);
+    }
+
+    setState(() {
+      getdata();
+    });
 
     return Scaffold(
         drawer: const Menu(),
@@ -79,8 +85,6 @@ class _NearbyConnectState extends State<NearbyConnect> {
                     child: ListView.builder(
                         itemCount: 2,
                         itemBuilder: (context, i) {
-                          //Get.snackbar("Hello", sp.fetchUserDataFirestore(cp.connections[i]).toString());
-                          //Future<Map<String,String?>> userdata = sp.fetchUserDataFirestore(cp.connections[i]);
                           //return Connect(userdata["fullname"], userdata["designation"]);
 
                           return Connect("Profile name", "Designation");

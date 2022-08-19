@@ -59,6 +59,7 @@ class SignInProvider extends ChangeNotifier {
 
   SignInProvider() {
     checkSignInUser();
+    readDataFromSharedPreferences();
   }
 
   Future setFormData(String? name, String? designation, String? bio) async {
@@ -66,9 +67,9 @@ class SignInProvider extends ChangeNotifier {
     _fullname = name;
     _designation = designation;
     _bio = bio;
-    shared.setString("fullname", _fullname!);
-    shared.setString("designation", _designation!);
-    shared.setString("bio", _bio!);
+    shared.setString("fullname", _fullname ?? "");
+    shared.setString("designation", _designation ?? "");
+    shared.setString("bio", _bio ?? "");
     notifyListeners();
   }
 
@@ -153,7 +154,7 @@ class SignInProvider extends ChangeNotifier {
   Future setLinkedIn(String linkedInUrl) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _linkedIn = linkedInUrl;
-    await sp.setString("linkedIn", _linkedIn!);
+    await sp.setString("linkedIn", _linkedIn??"");
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
@@ -165,7 +166,7 @@ class SignInProvider extends ChangeNotifier {
   Future setGithub(String githubUrl) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _github = githubUrl;
-    await sp.setString("github", _github!);
+    await sp.setString("github", _github??"");
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
@@ -177,7 +178,7 @@ class SignInProvider extends ChangeNotifier {
   Future setPortfolio(String portfolioUrl) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _portfolio = portfolioUrl;
-    await sp.setString("portfolio", _portfolio!);
+    await sp.setString("portfolio", _portfolio??"");
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
@@ -189,7 +190,7 @@ class SignInProvider extends ChangeNotifier {
   Future setTwitter(String twitterUrl) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _twitter = twitterUrl;
-    await sp.setString("twitter", _twitter!);
+    await sp.setString("twitter", _twitter??"");
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
@@ -276,14 +277,30 @@ class SignInProvider extends ChangeNotifier {
   // Save to shared preferences
   Future saveDataToSharedPreferences() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    await sp.setString("name", _name!);
-    await sp.setString("email", _email!);
-    await sp.setString("uid", _uid!);
-    await sp.setString("imageUrl", _imageUrl!);
-    await sp.setString("linkedIn", _linkedIn!);
-    await sp.setString("github", _github!);
-    await sp.setString("portfolio", _portfolio!);
-    await sp.setString("twitter", _twitter!);
+    await sp.setString("name", _name??"");
+    await sp.setString("email", _email??"");
+    await sp.setString("uid", _uid??"");
+    await sp.setString("imageUrl", _imageUrl??"");
+    await sp.setString("linkedIn", _linkedIn??"");
+    await sp.setString("github", _github??"");
+    await sp.setString("portfolio", _portfolio??"");
+    await sp.setString("twitter", _twitter??"");
+  }
+
+  Future readDataFromSharedPreferences() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    _name = sp.getString("name");
+    _email = sp.getString("email");
+    _uid = sp.getString("uid");
+    _imageUrl = sp.getString("imageUrl");
+    _linkedIn = sp.getString("linkedIn");
+    _github = sp.getString("github");
+    _portfolio = sp.getString("portfolio");
+    _twitter = sp.getString("twitter");
+
+    print(_name);
+    print(_email);
+    print(_imageUrl);
   }
 
   // Check if user exists or not
