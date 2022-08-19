@@ -24,6 +24,7 @@ class _ProfileState extends State<Profile> {
 
 
   Future getdata() async {
+    Future.delayed(Duration(seconds: 10));
     final SharedPreferences sp = await SharedPreferences.getInstance();
     fullname = sp.getString("fullname");
     imageUrl = sp.getString("imageUrl");
@@ -36,8 +37,7 @@ class _ProfileState extends State<Profile> {
     final sp = context.read<SignInProvider>();
     final cp = context.read<ConnectionProvider>();
     cp.enableDiscovery(sp.uid, context);
-    Future.delayed(Duration(seconds: 10));
-    // getallData();
+    getallData();
     // var imageUrl = sp.imageUrl!;
     // var degignation = sp.designation!;
     // var bio = sp.bio!;
@@ -223,8 +223,8 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            // sp.fullname!,
-                            "hello",
+                            sp.fullname!,
+                            // "hello",
                             style: TextStyle(
                               letterSpacing: 1,
                               fontSize: 20,
