@@ -22,9 +22,9 @@ class _ProfileState extends State<Profile> {
     final sp = context.read<SignInProvider>();
     final cp = context.read<ConnectionProvider>();
 
-    // setState(() {
-    //   cp.enableDiscovery(sp.uid, context);
-    // });
+    setState(() {
+      cp.enableDiscovery(sp.uid, context);
+    });
 
     return Scaffold(
         drawer: const Menu(),
