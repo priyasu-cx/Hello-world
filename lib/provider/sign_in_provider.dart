@@ -45,6 +45,17 @@ class SignInProvider extends ChangeNotifier {
   String? _bio;
   String? get bio => _bio;
 
+  String? _linkedIn = "";
+  String? get linkedIn => _linkedIn;
+
+  String? _github = "";
+  String? get github => _github;
+
+  String? _portfolio = "";
+  String? get portfolio => _portfolio;
+
+  String? _twitter = "";
+  String? get twitter => _twitter;
 
   SignInProvider() {
     checkSignInUser();
@@ -65,7 +76,7 @@ class SignInProvider extends ChangeNotifier {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     shared.setBool("form_done", true);
     _isFormDone = true;
-    notifyListeners();   
+    notifyListeners();
   }
 
   Future checkFormDone() async {
@@ -84,7 +95,7 @@ class SignInProvider extends ChangeNotifier {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     shared.setBool("signed_in", true);
     _isSignedIn = true;
-    notifyListeners();   
+    notifyListeners();
   }
 
   Future signInWithGoogle() async {
@@ -139,6 +150,54 @@ class SignInProvider extends ChangeNotifier {
     }
   }
 
+  Future setLinkedIn(String linkedInUrl) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    _linkedIn = linkedInUrl;
+    await sp.setString("linkedIn", _linkedIn!);
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(_uid);
+    await ref.update({
+      "linkedIn": _linkedIn,
+    });
+    notifyListeners();
+  }
+
+  Future setGithub(String githubUrl) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    _github = githubUrl;
+    await sp.setString("github", _github!);
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(_uid);
+    await ref.update({
+      "github": _github,
+    });
+    notifyListeners();
+  }
+
+  Future setPortfolio(String portfolioUrl) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    _portfolio = portfolioUrl;
+    await sp.setString("portfolio", _portfolio!);
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(_uid);
+    await ref.update({
+      "portfolio": _portfolio,
+    });
+    notifyListeners();
+  }
+
+  Future setTwitter(String twitterUrl) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    _twitter = twitterUrl;
+    await sp.setString("twitter", _twitter!);
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(_uid);
+    await ref.update({
+      "twitter": _twitter!,
+    });
+    notifyListeners();
+  }
+
   // Entry for cloud firestore
   Future getUserDataFromFirestore() async {
     await FirebaseFirestore.instance
@@ -146,11 +205,37 @@ class SignInProvider extends ChangeNotifier {
         .doc(_uid)
         .get()
         .then((DocumentSnapshot snapshot) async {
-          _uid = snapshot["uid"];
-          _name = snapshot["name"];
-          _email = snapshot["email"];
-          _imageUrl = snapshot["imageUrl"];
-        });
+      _uid = snapshot["uid"];
+      _name = snapshot["name"];
+      _email = snapshot["email"];
+      _imageUrl = snapshot["imageUrl"];
+      _linkedIn = snapshot["linkedIn"];
+      _github = snapshot["github"];
+      _portfolio = snapshot["portfolio"];
+      _twitter = snapshot["twitter"];
+    });
+    notifyListeners();
+  }
+
+  Future<Map> fetchUserDataFirestore(String uid) async {
+    var userData = new Map();
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot snapshot) async {
+      userData["fullname"] = snapshot["fullname"];
+      userData["designation"] = snapshot["designation"];
+      userData["bio"] = snapshot["bio"];
+      userData["imageUrl"] = snapshot["imageUrl"];
+      userData["linkedIn"] = snapshot["linkedIn"];
+      userData["github"] = snapshot["github"];
+      userData["portfolio"] = snapshot["portfolio"];
+      userData["twitter"] = snapshot["twitter"];
+    });
+
+    return userData;
   }
 
   Future getFormDataFromFirestore() async {
@@ -159,29 +244,31 @@ class SignInProvider extends ChangeNotifier {
         .doc(_uid)
         .get()
         .then((DocumentSnapshot snapshot) async {
-          _fullname = snapshot["fullname"];
-          _designation = snapshot["designation"];
-          _bio = snapshot["bio"];
-        });
+      _fullname = snapshot["fullname"];
+      _designation = snapshot["designation"];
+      _bio = snapshot["bio"];
+    });
   }
 
   Future saveDataToFirestore() async {
-    final DocumentReference ref = FirebaseFirestore.instance.collection("users").doc(_uid);
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.set({
       "name": _name,
-      "email":_email,
-      "uid":_uid,
+      "email": _email,
+      "uid": _uid,
       "imageUrl": _imageUrl,
     });
     notifyListeners();
   }
 
   Future saveFormDataToFirestore() async {
-    final DocumentReference ref = FirebaseFirestore.instance.collection("users").doc(_uid);
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
       "fullname": _fullname,
-      "designation":_designation,
-      "bio":_bio,
+      "designation": _designation,
+      "bio": _bio,
     });
     notifyListeners();
   }
@@ -193,6 +280,10 @@ class SignInProvider extends ChangeNotifier {
     await sp.setString("email", _email!);
     await sp.setString("uid", _uid!);
     await sp.setString("imageUrl", _imageUrl!);
+    await sp.setString("linkedIn", _linkedIn!);
+    await sp.setString("github", _github!);
+    await sp.setString("portfolio", _portfolio!);
+    await sp.setString("twitter", _twitter!);
   }
 
   // Check if user exists or not
