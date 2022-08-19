@@ -17,30 +17,33 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  var fullname;
-  var imageUrl;
-  var designation;
-  var bio;
-
+  var fullname = "";
+  var imageUrl = "";
+  var designation = "";
+  var bio = "";
 
   Future getdata() async {
-    Future.delayed(Duration(seconds: 10));
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    fullname = sp.getString("fullname");
-    imageUrl = sp.getString("imageUrl");
-    designation = sp.getString("designation");
-    bio = sp.getString("bio");
+    // fullname = sp.getString("fullname");
+    // imageUrl = sp.getString("imageUrl");
+    // designation = sp.getString("designation");
+    // bio = sp.getString("bio");
   }
 
   @override
   Widget build(BuildContext context) {
     final sp = context.read<SignInProvider>();
     final cp = context.read<ConnectionProvider>();
+    print(sp.fullname!);
     cp.enableDiscovery(sp.uid, context);
-    getallData();
+    // getallData();
     // var imageUrl = sp.imageUrl!;
     // var degignation = sp.designation!;
     // var bio = sp.bio!;
+
+    // setState(() {
+    //   getdata();
+    // });
 
     return Scaffold(
         drawer: const Menu(),
@@ -135,13 +138,13 @@ class _ProfileState extends State<Profile> {
                         value: false,
                         width: 50,
                         onChanged: (bool value) {
-                          // if (value == true) {
-                          //   cp.enableAdvertising(sp.uid);
-                          //   cp.disableDiscovery();
-                          // } else {
-                          //   cp.disableAdvertising();
-                          //   cp.enableDiscovery(sp.uid, context);
-                          // }
+                          if (value == true) {
+                            cp.enableAdvertising(sp.uid);
+                            cp.disableDiscovery();
+                          } else {
+                            cp.disableAdvertising();
+                            cp.enableDiscovery(sp.uid, context);
+                          }
                         },
                         height: 25,
                         animationDuration: const Duration(milliseconds: 400),
@@ -201,13 +204,12 @@ class _ProfileState extends State<Profile> {
                         children: [
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.28,
-                            child: Image.asset("assets/animation.gif"),
-                            // sp.imageUrl == null
-                            //     ? Image.asset("assets/animation.gif")
-                            //     : CircleAvatar(
-                            //         radius: 75,
-                            //         backgroundImage: NetworkImage(sp.imageUrl!),
-                            //       ),
+                            child: sp.imageUrl == null
+                                ? Image.asset("assets/animation.gif")
+                                : CircleAvatar(
+                                    radius: 75,
+                                    backgroundImage: NetworkImage(sp.imageUrl!),
+                                  ),
                           ),
                           // CircleAvatar(
                           //   radius: Get.width * 0.1,
@@ -235,8 +237,8 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            // sp.designation!,
-                            "designation",
+                            sp.designation!,
+                            // "designation",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w300,
@@ -246,8 +248,8 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            // sp.bio!,
-                            "Bios",
+                            sp.bio!,
+                            // "Bios",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 13,
