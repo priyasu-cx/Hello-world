@@ -218,7 +218,7 @@ class SignInProvider extends ChangeNotifier {
   }
 
   Future<Map> fetchUserDataFirestore(String uid) async {
-    var userData = new Map();
+    var userData = new Map<String, String?>();
 
     await FirebaseFirestore.instance
         .collection("users")

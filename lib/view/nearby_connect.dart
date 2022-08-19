@@ -1,8 +1,12 @@
+import 'package:connecten/provider/connection_provider.dart';
 import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/menu.dart';
+import 'package:connecten/view/profile_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../provider/sign_in_provider.dart';
+import 'package:provider/provider.dart';
 
 class NearbyConnect extends StatefulWidget {
   const NearbyConnect({Key? key}) : super(key: key);
@@ -12,8 +16,12 @@ class NearbyConnect extends StatefulWidget {
 }
 
 class _NearbyConnectState extends State<NearbyConnect> {
+
   @override
   Widget build(BuildContext context) {
+    final cp = context.read<ConnectionProvider>();
+    final sp = context.read<SignInProvider>();
+
     return Scaffold(
         drawer: const Menu(),
         appBar: AppBar(
@@ -55,8 +63,11 @@ class _NearbyConnectState extends State<NearbyConnect> {
                     height: Get.height * 0.6,
                     //height: Get.height*0.5,
                     child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: cp.connections.length,
                         itemBuilder: (context, i) {
+                          Future<Map<String,String?>> userdata = sp.fetchUserDataFirestore(cp.connections[i]);
+                          //return Connect(userdata["fullname"], userdata["designation"]);
+
                           return Connect("Profile name", "Designation");
                         })),
               ),
