@@ -21,6 +21,10 @@ class _ProfileState extends State<Profile> {
     final sp = context.read<SignInProvider>();
     final cp = context.read<ConnectionProvider>();
 
+    setState(() {
+      cp.enableDiscovery(sp.uid, context);
+    });
+
     return Scaffold(
         drawer: const Menu(),
         appBar: AppBar(
@@ -76,7 +80,7 @@ class _ProfileState extends State<Profile> {
                             cp.disableDiscovery();
                           } else {
                             cp.disableAdvertising();
-                            cp.enableDiscovery(sp.uid);
+                            cp.enableDiscovery(sp.uid, context);
                           }
                         },
                         height: 25,
