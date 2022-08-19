@@ -25,13 +25,16 @@ class _NearbyConnectState extends State<NearbyConnect> {
     Future getallData(List<String> uidList) async {
       List<Map<String, String?>> allUserData = [];
 
-      for (var uid in uidList) {}
+      for (var uid in uidList) {
+        // allUserData.add(sp.fetchUserDataFirestore(uid));
+        sp.fetchUserDataFirestore(uid);
+      }
       return allUserData;
     }
 
-    setState(() async {
-      List<Map<String, String?>> allUserData = await getallData(cp.connections);
-    });
+    // setState(() async {
+    //   List<Map<String, String?>> allUserData = await getallData(cp.connections);
+    // });
 
     return Scaffold(
         drawer: const Menu(),
@@ -74,10 +77,10 @@ class _NearbyConnectState extends State<NearbyConnect> {
                     height: Get.height * 0.6,
                     //height: Get.height*0.5,
                     child: ListView.builder(
-                        itemCount: cp.connections.length,
+                        itemCount: 2,
                         itemBuilder: (context, i) {
-                          Future<Map<String, String?>> userdata =
-                              sp.fetchUserDataFirestore(cp.connections[i]);
+                          //Get.snackbar("Hello", sp.fetchUserDataFirestore(cp.connections[i]).toString());
+                          //Future<Map<String,String?>> userdata = sp.fetchUserDataFirestore(cp.connections[i]);
                           //return Connect(userdata["fullname"], userdata["designation"]);
 
                           return Connect("Profile name", "Designation");
@@ -149,7 +152,9 @@ class _NearbyConnectState extends State<NearbyConnect> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ProfileDialog(name, context);
+                    },
                     icon: FaIcon(
                       FontAwesomeIcons.userPlus,
                       color: arrowcolor,
