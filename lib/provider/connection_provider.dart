@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 class ConnectionProvider extends ChangeNotifier {
   final Strategy strategy = Strategy.P2P_STAR;
 
+  List<String> _connections = [];
+  List<String> get connections => _connections;
+
   ConnectionProvider() {
     checkPermissions();
   }
@@ -19,12 +22,27 @@ class ConnectionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future setConnectionData() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    shared.setStringList("connections", _connections);
+    notifyListeners();
+  }
+
+  Future getConnectionData() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    _connections = shared.getStringList("connections")!;
+    notifyListeners();
+  }
+
   Future enableDiscovery(String? uid, context) async {
     try {
       bool a = await Nearby().startDiscovery(
         uid!,
         strategy,
         onEndpointFound: (id, name, serviceId) {
+          if (_connections.contains(name) == false) {
+            _connections.add(name);
+          }
           showModalBottomSheet(
               context: context,
               builder: (builder) {
@@ -38,13 +56,7 @@ class ConnectionProvider extends ChangeNotifier {
                   ),
                 );
               });
-          Get.snackbar(
-            "On Endpoint Found",
-            "Id $id, Name $name, Service Id $serviceId",
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 5),
-            backgroundColor: Colors.black,
-          );
+          Get.snackbar("New Connection Found", _connections.toString());
         },
         onEndpointLost: (id) {
           Get.snackbar(

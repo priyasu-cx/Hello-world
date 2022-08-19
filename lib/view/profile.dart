@@ -66,49 +66,49 @@ class _ProfileState extends State<Profile> {
                 ),
                 child: Stack(
                   children: [
-                    Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                        alignment: Alignment.bottomLeft,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SizedBox(
-                              height: Get.height * 0.05,
-                            ),
-                            SlidingSwitch(
-                              value: false,
-                              width: 50,
-                              onChanged: (bool value) {
-                                if (value == true) {
-                                  cp.enableAdvertising(sp.uid);
-                                } else {
-                                  cp.disableAdvertising();
-                                }
-                              },
-                              height: 25,
-                              animationDuration:
-                                  const Duration(milliseconds: 400),
-                              onTap: () {},
-                              onDoubleTap: () {},
-                              onSwipe: () {},
-                              textOff: "",
-                              textOn: "",
-                              contentSize: 17,
-                              colorOn: const Color(0xff035e00),
-                              colorOff: const Color(0xfff00c0c),
-                              background: const Color(0xff25ff00),
-                              buttonColor: const Color(0xfff7f5f7),
-                              inactiveColor: const Color(0xff636f7b),
-                            ),
-                            Text(
-                              "Advertise",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 1),
-                            ),
-                          ],
-                        )),
+                    // Container(
+                    //     padding:
+                    //         EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                    //     alignment: Alignment.bottomLeft,
+                    //     child: Column(
+                    //       mainAxisAlignment: MainAxisAlignment.end,
+                    //       children: [
+                    //         SizedBox(
+                    //           height: Get.height * 0.05,
+                    //         ),
+                    //         SlidingSwitch(
+                    //           value: false,
+                    //           width: 50,
+                    //           onChanged: (bool value) {
+                    //             if (value == true) {
+                    //               cp.enableAdvertising(sp.uid);
+                    //             } else {
+                    //               cp.disableAdvertising();
+                    //             }
+                    //           },
+                    //           height: 25,
+                    //           animationDuration:
+                    //               const Duration(milliseconds: 400),
+                    //           onTap: () {},
+                    //           onDoubleTap: () {},
+                    //           onSwipe: () {},
+                    //           textOff: "",
+                    //           textOn: "",
+                    //           contentSize: 17,
+                    //           colorOn: const Color(0xff035e00),
+                    //           colorOff: const Color(0xfff00c0c),
+                    //           background: const Color(0xff25ff00),
+                    //           buttonColor: const Color(0xfff7f5f7),
+                    //           inactiveColor: const Color(0xff636f7b),
+                    //         ),
+                    //         Text(
+                    //           "Advertise",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w500,
+                    //               letterSpacing: 1),
+                    //         ),
+                    //       ],
+                    //     )),
                     //Stack 1
                     Container(
                       padding:
