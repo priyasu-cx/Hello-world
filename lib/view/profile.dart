@@ -16,14 +16,15 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
   @override
   Widget build(BuildContext context) {
     final sp = context.read<SignInProvider>();
     final cp = context.read<ConnectionProvider>();
 
-    setState(() {
-      cp.enableDiscovery(sp.uid, context);
-    });
+    // setState(() {
+    //   cp.enableDiscovery(sp.uid, context);
+    // });
 
     return Scaffold(
         drawer: const Menu(),
@@ -186,6 +187,7 @@ class _ProfileState extends State<Profile> {
                             radius: Get.width * 0.1,
                             backgroundColor: primarybgcolor,
                             backgroundImage: AssetImage("assets/Avatar.png"),
+                            //foregroundImage: sp.imageUrl == null ? AssetImage("assets/Avatar.png") : NetworkImage(sp.imageUrl),
                             foregroundImage: NetworkImage(sp.imageUrl!),
                           ),
                           SizedBox(
@@ -243,14 +245,14 @@ class _ProfileState extends State<Profile> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          social(1, "assets/linkedin.png", "Linkedin", "link"),
-                          social(2, "assets/github.png", "Github", "link"),
+                          social(context, 1, "assets/linkedin.png", "Linkedin", "link"),
+                          social(context, 2, "assets/github.png", "Github", "link"),
                         ]),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          social(1, "assets/website.png", "Portfolio", "link"),
-                          social(2, "assets/twitter.png", "Twitter", "link"),
+                          social(context,3, "assets/website.png", "Portfolio", "link"),
+                          social(context,4, "assets/twitter.png", "Twitter", "link"),
                         ]),
                     SizedBox(
                       height: Get.height * 0.02,
@@ -292,7 +294,7 @@ class _ProfileState extends State<Profile> {
   //     )
   // );
 
-  Widget social(index, image, text, link) {
+  Widget social(context, index, image, text, link) {
     return Container(
       width: Get.width * 0.3,
       padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -320,7 +322,7 @@ class _ProfileState extends State<Profile> {
           // ),
           GestureDetector(
             onTap: () {
-              openDialog(image, text);
+              openDialog(image, text, index);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -349,9 +351,17 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  openDialog(image, text) => showDialog(
+  openDialog(image, text, index) => showDialog(
+
         context: context,
-        builder: (context) => Dialog(
+        builder: (context) {
+          final sp = context.read<SignInProvider>();
+          final myController = TextEditingController();
+          // myController.text = index == 1 ? sp.linkedIn! : index == 2 ? sp.github! :
+          // index == 3 ? sp.portfolio!: sp.twitter!;
+          // myController.text == "" ? myController.text = "Give link here": myController.text = index == 1 ? sp.linkedIn! : index == 2 ? sp.github! :
+          // index == 3 ? sp.portfolio!: sp.twitter!;
+          return Dialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Stack(
               clipBehavior: Clip.none,
@@ -371,13 +381,25 @@ class _ProfileState extends State<Profile> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          TextField(
+                          TextFormField(
+                            // initialValue: index == 1 ? sp.linkedIn! : index == 2 ? sp.github! :
+                            // index == 3 ? sp.portfolio!: sp.twitter!,
+                            controller: myController,
                             autofocus: true,
-                            decoration: InputDecoration(),
+                            decoration: InputDecoration(hintText: index == 1 ?"https://www.linkedin.com/":
+                            index == 2 ? "https://github.com/":
+                            index == 3 ? "https://yoursite.com/" :
+                                "https://twitter.com/"
+                            ),
                           ),
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
+                                index == 1 ? sp.setLinkedIn(myController.text):
+                                index == 2 ? sp.setGithub(myController.text):
+                                    index == 3 ? sp.setPortfolio(myController.text):
+                                        sp.setTwitter(myController.text);
+                                Get.snackbar("Link Submitted", "");
                               },
                               child: Text(
                                 'SUBMIT',
@@ -401,6 +423,6 @@ class _ProfileState extends State<Profile> {
                   top: -50,
                 )
               ],
-            )),
+            ));},
       );
 }
