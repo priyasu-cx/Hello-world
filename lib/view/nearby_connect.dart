@@ -33,6 +33,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
       return allUserData;
     }
 
+
     void getdata() async {
       allUserData = await getallData(cp.connections);
     }
@@ -82,10 +83,8 @@ class _NearbyConnectState extends State<NearbyConnect> {
                     height: Get.height * 0.6,
                     //height: Get.height*0.5,
                     child: ListView.builder(
-                        itemCount: cp.connections.length,
+                        itemCount: 2,
                         itemBuilder: (context, i) {
-                          // Future<Map<String, String?>> userdata =
-                          //     sp.fetchUserDataFirestore(cp.connections[i]);
                           //return Connect(userdata["fullname"], userdata["designation"]);
 
                           return Connect("Profile name", "Designation");
@@ -157,7 +156,9 @@ class _NearbyConnectState extends State<NearbyConnect> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ProfileDialog(name, context);
+                    },
                     icon: FaIcon(
                       FontAwesomeIcons.userPlus,
                       color: arrowcolor,

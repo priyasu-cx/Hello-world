@@ -1,5 +1,6 @@
 import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/menu.dart';
+import 'package:connecten/view/profile_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,7 +51,9 @@ class _ConnectionsState extends State<Connections> {
                 child: Container(
                     height: Get.height*0.6,
                     //height: Get.height*0.5,
-                    child: ListView.builder(itemCount: 2, itemBuilder: (context,i){return ConnectBox("Profile name","Designation");})
+                    child: ListView.builder(
+                        itemCount: 2,
+                        itemBuilder: (context,i){return ConnectBox("Profile name","Designation");})
                 ),
               ),
 
@@ -60,40 +63,43 @@ class _ConnectionsState extends State<Connections> {
     );
   }
   Widget ConnectBox(name,designation){
-    return Container(
-      alignment: Alignment.centerLeft,
-      height: Get.height*0.1,
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.only(bottom: 20),
-        decoration: BoxDecoration(
-          color: Color(0xffEEF7FE),
-          borderRadius: BorderRadius.circular(20),
-        ),
-      child: Column(
-        //mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            name,
-            //textAlign: TextAlign.start,
-            style: TextStyle(
-              letterSpacing: 1,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+    return InkWell(
+      onTap: (){ProfileDialog(name, context);},
+      child: Container(
+          alignment: Alignment.centerLeft,
+          height: Get.height*0.1,
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.only(bottom: 20),
+          decoration: BoxDecoration(
+            color: Color(0xffEEF7FE),
+            borderRadius: BorderRadius.circular(20),
           ),
-          SizedBox(height: Get.height*0.01,),
-          Text(
-            designation,
-            //textAlign: TextAlign.start,
-            style: TextStyle(
-              letterSpacing: 1,
-              fontSize: 16,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
-        ],
-      )
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                //textAlign: TextAlign.start,
+                style: TextStyle(
+                  letterSpacing: 1,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: Get.height*0.01,),
+              Text(
+                designation,
+                //textAlign: TextAlign.start,
+                style: TextStyle(
+                  letterSpacing: 1,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ],
+          )
+      ),
     );
   }
 }
