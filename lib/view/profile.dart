@@ -352,8 +352,7 @@ class _ProfileState extends State<Profile> {
   openDialog(image, text) => showDialog(
         context: context,
         builder: (context) => Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Stack(
               clipBehavior: Clip.none,
               alignment: Alignment.topCenter,

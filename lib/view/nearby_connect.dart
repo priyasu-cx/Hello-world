@@ -1,5 +1,6 @@
 import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/menu.dart';
+import 'package:connecten/view/profile_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
