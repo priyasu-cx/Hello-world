@@ -22,6 +22,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
 
   Future<Map<String, String?>> fetchUserData(String uid) async {
     var userData = new Map<String, String?>();
+    List<String?> connectedList = [];
 
     await FirebaseFirestore.instance
         .collection("users")
@@ -37,7 +38,9 @@ class _NearbyConnectState extends State<NearbyConnect> {
       userData["github"] = snapshot["github"];
       userData["portfolio"] = snapshot["portfolio"];
       userData["twitter"] = snapshot["twitter"];
-      userData["connectedList"] = snapshot["connectedList"];
+      // userData["connectedList"] = snapshot["connectedList"];
+      var connectedData = snapshot["connectedList"];
+      connectedList= List<String?>.from(connectedData);
     });
 
     return userData;

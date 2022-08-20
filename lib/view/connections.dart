@@ -3,8 +3,10 @@ import 'package:connecten/view/Nav_Drawer/menu.dart';
 import 'package:connecten/view/profile_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import '../provider/connection_provider.dart';
 import '../provider/sign_in_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -16,10 +18,27 @@ class Connections extends StatefulWidget {
 }
 
 class _ConnectionsState extends State<Connections> {
+  List<Map<String, String?>> allUserData = [];
+  List<String?> connectedList = [];
+  bool isDone = false;
+
+  Future<List<String?>> getConnectionList(String? uid) async {
+    final datacount = GetStorage();
+    List<String?> data = [];
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(uid);
+    await ref.get().then((DocumentSnapshot snapshot) {
+      var connectedData = snapshot["connectedList"];
+      data = List<String?>.from(connectedData);
+      // print(data);
+    });
+    // datacount.write("connectedlist", data);
+    print(data);
+    return data;
+  }
 
   Future<Map<String, String?>> fetchUserData(String uid) async {
     var userData = new Map<String, String?>();
-
 
     await FirebaseFirestore.instance
         .collection("users")
@@ -35,56 +54,77 @@ class _ConnectionsState extends State<Connections> {
       userData["github"] = snapshot["github"];
       userData["portfolio"] = snapshot["portfolio"];
       userData["twitter"] = snapshot["twitter"];
-      userData["connectedList"] = snapshot["connectedList"];
+      // userData["connectedList"] = snapshot["connectedList"];
+      var connectedData = snapshot["connectedList"];
+      connectedList = List<String?>.from(connectedData);
     });
 
     return userData;
   }
 
+  void getallData(String? uid) async {
+    List<Map<String, String?>> allData = [];
+    List<String?> uidList = [];
+    uidList = await getConnectionList(uid!);
+
+    for (var uid in uidList) {
+      // Get.snackbar("Uid", uid);
+      // print(uid);
+      await fetchUserData(uid!).then((value) {
+        allData.add(value);
+      });
+    }
+    setState(() {
+      isDone = true;
+      allUserData = allData;
+    });
+  }
+
+  @override
+  void initState() {
+    final cp = context.read<ConnectionProvider>();
+    final sp = context.read<SignInProvider>();
+    // final datacount = GetStorage();
+
+    if (isDone == false) {
+      // var data = getConnectionList(sp.uid!);
+      // print(data);
+      // print("^^^^^^");
+      // print(datacount.read("connectedList"));
+      // var connectList = datacount.read("connectedList");
+      getallData(sp.uid!);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String?>> allUserData = [];
-    final sp = context.read<SignInProvider>();
-
-    void getallData(List<dynamic> uidList) async {
-      List<Map<String, String?>> allData = [];
-
-      for (var uid in sp.connectedList) {
-        // Get.snackbar("Uid", uid);
-        print(uid);
-        await fetchUserData(uid!).then((value) {
-          allData.add(value);
-        });
-        //print(uid);
-
-      }
-      setState(() {
-        allUserData = allData;
-      });
-    }
-    getallData(sp.connectedList);
+    print(allUserData.length);
 
     return Scaffold(
-      drawer: const Menu(),
-      appBar: AppBar(
-        toolbarHeight: Get.height * 0.12,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        shadowColor: primarybgcolor,
-        elevation: 0.0,
-        leading: Builder(builder: (context) =>IconButton(
-          splashRadius: 1,
-          padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
-          onPressed: () {Scaffold.of(context).openDrawer();},
-          icon: FaIcon(
-            FontAwesomeIcons.bars,
-            color: arrowcolor,
+        drawer: const Menu(),
+        appBar: AppBar(
+          toolbarHeight: Get.height * 0.12,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          shadowColor: primarybgcolor,
+          elevation: 0.0,
+          leading: Builder(
+            builder: (context) => IconButton(
+              splashRadius: 1,
+              padding: const EdgeInsets.fromLTRB(30, 40, 0, 25),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: FaIcon(
+                FontAwesomeIcons.bars,
+                color: arrowcolor,
+              ),
+              alignment: Alignment.centerLeft,
+            ),
           ),
-          alignment: Alignment.centerLeft,
-        ),),
-      ),
-        body:Container(
+        ),
+        body: Container(
           margin: EdgeInsets.fromLTRB(30, 0, 30, 25),
           child: Column(
             children: [
@@ -96,28 +136,34 @@ class _ConnectionsState extends State<Connections> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: Get.height*.02),
+              SizedBox(height: Get.height * .02),
               SingleChildScrollView(
                 child: Container(
-                    height: Get.height*0.6,
+                    height: Get.height * 0.6,
                     //height: Get.height*0.5,
                     child: ListView.builder(
-                        itemCount: allUserData.length,
-                        itemBuilder: (context,i){return ConnectBox(allUserData[i], allUserData[i]["fullname"], allUserData[i]["designation"]);})
-                ),
+                      itemCount: allUserData.length,
+                      itemBuilder: (context, i) {
+                        return ConnectBox(
+                            allUserData[i],
+                            allUserData[i]["fullname"],
+                            allUserData[i]["designation"]);
+                      },
+                    )),
               ),
-
             ],
           ),
-        )
-    );
+        ));
   }
-  Widget ConnectBox(allUserData, name, designation){
+
+  Widget ConnectBox(allUserData, name, designation) {
     return InkWell(
-      onTap: (){ProfileDialog(allUserData, context);},
+      onTap: () {
+        ProfileDialog(allUserData, context);
+      },
       child: Container(
           alignment: Alignment.centerLeft,
-          height: Get.height*0.1,
+          height: Get.height * 0.1,
           padding: EdgeInsets.all(10),
           margin: EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
@@ -137,7 +183,9 @@ class _ConnectionsState extends State<Connections> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: Get.height*0.01,),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
               Text(
                 designation,
                 //textAlign: TextAlign.start,
@@ -148,8 +196,7 @@ class _ConnectionsState extends State<Connections> {
                 ),
               ),
             ],
-          )
-      ),
+          )),
     );
   }
 }

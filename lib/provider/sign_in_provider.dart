@@ -59,8 +59,8 @@ class SignInProvider extends ChangeNotifier {
   String? _twitter = "";
   String? get twitter => _twitter;
 
-  List<dynamic> _connectedList = [];
-  List<dynamic> get connectedList => _connectedList;
+  List<String?> _connectedList = [];
+  List<String?> get connectedList => _connectedList;
 
   SignInProvider() {
     checkSignInUser();
@@ -233,11 +233,14 @@ class SignInProvider extends ChangeNotifier {
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.get().then((DocumentSnapshot snapshot) {
-      _connectedList = snapshot["connectedList"];
+      var connectedData = snapshot["connectedList"];
+      _connectedList = List<String?>.from(connectedData);
     });
-    _connectedList.add(uid!);
-    await ref.update({"connectedList": _connectedList});
-    datacount.write("connectedlist", _connectedList);
+    if (_connectedList.contains(uid!) == false) {
+      _connectedList.add(uid);
+      await ref.update({"connectedList": _connectedList});
+      datacount.write("connectedlist", _connectedList);
+    }
     notifyListeners();
   }
 
@@ -246,7 +249,8 @@ class SignInProvider extends ChangeNotifier {
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.get().then((DocumentSnapshot snapshot) {
-      _connectedList = snapshot["connectedList"];
+      var connectedData = snapshot["connectedList"];
+      _connectedList = List<String?>.from(connectedData);
     });
     datacount.write("connectedlist", _connectedList);
     notifyListeners();
@@ -267,7 +271,8 @@ class SignInProvider extends ChangeNotifier {
       _github = snapshot["github"];
       _portfolio = snapshot["portfolio"];
       _twitter = snapshot["twitter"];
-      _connectedList = snapshot["connectedList"];
+      var connectedData = snapshot["connectedList"];
+      _connectedList = connectedData.cast<String?>();
     });
     notifyListeners();
   }
