@@ -59,6 +59,9 @@ class SignInProvider extends ChangeNotifier {
   String? _twitter = "";
   String? get twitter => _twitter;
 
+  List<String?> _connectedList = [];
+  List<String?> get connectedList => _connectedList;
+
   SignInProvider() {
     checkSignInUser();
     readDataFromSharedPreferences();
@@ -224,6 +227,17 @@ class SignInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addConnection(String? uid) async {
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(_uid);
+    await ref.get().then((DocumentSnapshot snapshot) {
+      _connectedList = snapshot["connectedList"];
+    });
+    _connectedList.add(uid!);
+    await ref.update({"connectedList": _connectedList});
+    notifyListeners();
+  }
+
   // Entry for cloud firestore
   Future getUserDataFromFirestore() async {
     await FirebaseFirestore.instance
@@ -239,6 +253,7 @@ class SignInProvider extends ChangeNotifier {
       _github = snapshot["github"];
       _portfolio = snapshot["portfolio"];
       _twitter = snapshot["twitter"];
+      _connectedList = snapshot["connectedList"];
     });
     notifyListeners();
   }
@@ -259,6 +274,7 @@ class SignInProvider extends ChangeNotifier {
       userData["github"] = snapshot["github"];
       userData["portfolio"] = snapshot["portfolio"];
       userData["twitter"] = snapshot["twitter"];
+      userData["connectedList"] = snapshot["connectedList"];
     });
 
     return userData;
@@ -288,6 +304,7 @@ class SignInProvider extends ChangeNotifier {
       "github": _github,
       "portfolio": _portfolio,
       "twitter": _twitter,
+      "connectedList": _connectedList,
     });
     notifyListeners();
   }
