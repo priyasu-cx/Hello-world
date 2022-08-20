@@ -4,6 +4,9 @@ import 'package:connecten/view/profile_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import '../provider/sign_in_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Connections extends StatefulWidget {
   const Connections({Key? key}) : super(key: key);
@@ -13,8 +16,55 @@ class Connections extends StatefulWidget {
 }
 
 class _ConnectionsState extends State<Connections> {
+
+  Future<Map<String, String?>> fetchUserData(String uid) async {
+    var userData = new Map<String, String?>();
+
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot snapshot) async {
+      userData["uid"] = snapshot["uid"];
+      userData["fullname"] = snapshot["fullname"];
+      userData["designation"] = snapshot["designation"];
+      userData["bio"] = snapshot["bio"];
+      userData["imageUrl"] = snapshot["imageUrl"];
+      userData["linkedIn"] = snapshot["linkedIn"];
+      userData["github"] = snapshot["github"];
+      userData["portfolio"] = snapshot["portfolio"];
+      userData["twitter"] = snapshot["twitter"];
+      userData["connectedList"] = snapshot["connectedList"];
+    });
+
+    return userData;
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String?>> allUserData = [];
+    final sp = context.read<SignInProvider>();
+
+    void getallData(List<dynamic> uidList) async {
+      List<Map<String, String?>> allData = [];
+
+      for (var uid in sp.connectedList) {
+        // Get.snackbar("Uid", uid);
+        print(uid);
+        await fetchUserData(uid!).then((value) {
+          allData.add(value);
+        });
+        //print(uid);
+
+      }
+      setState(() {
+        allUserData = allData;
+      });
+    }
+    getallData(sp.connectedList);
+
     return Scaffold(
       drawer: const Menu(),
       appBar: AppBar(
@@ -52,8 +102,8 @@ class _ConnectionsState extends State<Connections> {
                     height: Get.height*0.6,
                     //height: Get.height*0.5,
                     child: ListView.builder(
-                        itemCount: 2,
-                        itemBuilder: (context,i){return ConnectBox("Profile name","Designation");})
+                        itemCount: allUserData.length,
+                        itemBuilder: (context,i){return ConnectBox(allUserData[i], allUserData[i]["fullname"], allUserData[i]["designation"]);})
                 ),
               ),
 
@@ -62,9 +112,9 @@ class _ConnectionsState extends State<Connections> {
         )
     );
   }
-  Widget ConnectBox(name,designation){
+  Widget ConnectBox(allUserData, name, designation){
     return InkWell(
-      onTap: (){ProfileDialog(name, context);},
+      onTap: (){ProfileDialog(allUserData, context);},
       child: Container(
           alignment: Alignment.centerLeft,
           height: Get.height*0.1,

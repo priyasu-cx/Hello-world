@@ -4,28 +4,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// void ProfileDialog(BuildContext context) {
-//   showDialog<void>(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//             title: new Text("title"),
-//             content: new Text("body"),
-//             actions: <Widget>[
-//               new TextButton(
-//                 child: new Text("close"),
-//                 onPressed: () {
-//                   Navigator.of(context).pop();
-//                 },
-//               )
-//             ]);
-//       });
-// }
-
 Future ProfileDialog(allUserData, context) => showDialog(
     context: context,
     builder: (context) {
-      final datacount = GetStorage();
       return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

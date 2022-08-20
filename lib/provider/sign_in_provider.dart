@@ -59,8 +59,8 @@ class SignInProvider extends ChangeNotifier {
   String? _twitter = "";
   String? get twitter => _twitter;
 
-  List<String?> _connectedList = [];
-  List<String?> get connectedList => _connectedList;
+  List<dynamic> _connectedList = [];
+  List<dynamic> get connectedList => _connectedList;
 
   SignInProvider() {
     checkSignInUser();
@@ -228,6 +228,8 @@ class SignInProvider extends ChangeNotifier {
   }
 
   Future addConnection(String? uid) async {
+    final datacount = GetStorage();
+
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.get().then((DocumentSnapshot snapshot) {
@@ -235,15 +237,18 @@ class SignInProvider extends ChangeNotifier {
     });
     _connectedList.add(uid!);
     await ref.update({"connectedList": _connectedList});
+    datacount.write("connectedlist", _connectedList);
     notifyListeners();
   }
 
-  Future getConnectionList() async {
+  Future getConnectionList(String? uid) async {
+    final datacount = GetStorage();
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.get().then((DocumentSnapshot snapshot) {
       _connectedList = snapshot["connectedList"];
     });
+    datacount.write("connectedlist", _connectedList);
     notifyListeners();
   }
 
