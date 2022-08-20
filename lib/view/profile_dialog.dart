@@ -56,13 +56,14 @@ Future ProfileDialog(allUserData, context) => showDialog(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    social_link(context, 1, "assets/linkedin.png", "Linkedin", allUserData["linkedIn"]),
-                    social_link(
-                        context, 2, "assets/github.png", "Github", allUserData["github"]),
-                    social_link(
-                        context, 3, "assets/website.png", "Portfolio", allUserData["portfolio"]),
-                    social_link(
-                        context, 4, "assets/twitter.png", "Twitter", allUserData["twitter"]),
+                    social_link(context, 1, "assets/linkedin.png", "Linkedin",
+                        allUserData["linkedIn"]),
+                    social_link(context, 2, "assets/github.png", "Github",
+                        allUserData["github"]),
+                    social_link(context, 3, "assets/website.png", "Portfolio",
+                        allUserData["portfolio"]),
+                    social_link(context, 4, "assets/twitter.png", "Twitter",
+                        allUserData["twitter"]),
                     // Row(
                     //     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     //     children: [
@@ -109,11 +110,17 @@ Widget social_link(context, index, image, text, link) {
         // ),
         GestureDetector(
           onTap: () async {
-            var url = Uri.parse(link);
-            if (await canLaunchUrl(url)) {
-              await launchUrl(url);
+            if (link == "") {
+              Get.snackbar("Oops", "No link found");
             } else {
-              throw 'Could not launch $url';
+              var url = Uri.parse(link);
+
+              if (await canLaunchUrl(url)) {
+                // LaunchMode.externalApplication;
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                throw 'Could not launch $url';
+              }
             }
           },
           child: Column(
