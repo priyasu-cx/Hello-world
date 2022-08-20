@@ -77,9 +77,9 @@ class _NearbyConnectState extends State<NearbyConnect> {
     final cp = context.read<ConnectionProvider>();
     final sp = context.read<SignInProvider>();
 
+
     print("Outside check -> ");
     print(allUserData.length);
-
     return Scaffold(
         drawer: const Menu(),
         appBar: AppBar(
@@ -125,8 +125,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
                         itemBuilder: (context, i) {
                           //return Connect(userdata["fullname"], userdata["designation"]);
 
-                          return Connect(allUserData[i]["fullname"],
-                              allUserData[i]["designation"]);
+                          return Connect(allUserData[i], allUserData[i]["fullname"], allUserData[i]["designation"]);
                         })),
               ),
             ],
@@ -134,7 +133,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
         ));
   }
 
-  Widget Connect(name, designation) {
+  Widget Connect(allUserData, name, designation) {
     return Container(
         alignment: Alignment.center,
         padding: EdgeInsets.all(10),
@@ -196,7 +195,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
                   alignment: Alignment.centerRight,
                   child: IconButton(
                     onPressed: () {
-                      ProfileDialog(name, context);
+                      ProfileDialog(allUserData, context);
                     },
                     icon: FaIcon(
                       FontAwesomeIcons.userPlus,
