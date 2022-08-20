@@ -42,10 +42,10 @@ class _NearbyConnectState extends State<NearbyConnect> {
   Widget build(BuildContext context) {
     final cp = context.read<ConnectionProvider>();
     final sp = context.read<SignInProvider>();
-    late List<Map<String, String?>> allUserData;
+    List<Map<String, String?>> allUserData = [];
     bool isDone = false;
 
-    Future getallData(List<String> uidList) async {
+    void getallData(List<String> uidList) async {
       List<Map<String, String?>> allData = [];
 
       for (var uid in uidList) {
@@ -53,7 +53,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
         print(uid);
         await fetchUserData(uid).then((value) {
           allData.add(value);
-          print(value.keys);
+          // print(value["fullname"]);
           // allUserData[i]["fullname"]
           //   // Get.snackbar(
           //   // "If fullname exists:", value.containsKey("fullname").toString());
@@ -61,16 +61,19 @@ class _NearbyConnectState extends State<NearbyConnect> {
         //print(uid);
 
       }
-      return allData;
+      setState(() {
+        isDone = true;
+        allUserData = allData;
+        
+      });
     }
 
-    void getdata() async {
-      allUserData = await getallData(cp.connections);
+    if (isDone == false) {
+      getallData(cp.connections);
     }
 
-    setState(() {
-      getdata();
-    });
+    print("Outside check -> ");
+    print(allUserData.length);
 
     return Scaffold(
         drawer: const Menu(),
@@ -117,7 +120,8 @@ class _NearbyConnectState extends State<NearbyConnect> {
                         itemBuilder: (context, i) {
                           //return Connect(userdata["fullname"], userdata["designation"]);
 
-                          return Connect(allUserData[i]["fullname"], allUserData[i]["designation"]);
+                          return Connect(allUserData[i]["fullname"],
+                              allUserData[i]["designation"]);
                         })),
               ),
             ],
