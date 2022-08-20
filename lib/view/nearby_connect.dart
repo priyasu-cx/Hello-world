@@ -53,7 +53,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
         print(uid);
         await fetchUserData(uid).then((value) {
           allData.add(value);
-          print(value.keys);
+          print(value["fullname"]);
           // allUserData[i]["fullname"]
           //   // Get.snackbar(
           //   // "If fullname exists:", value.containsKey("fullname").toString());
@@ -116,8 +116,8 @@ class _NearbyConnectState extends State<NearbyConnect> {
                         itemCount: allUserData.length,
                         itemBuilder: (context, i) {
                           //return Connect(userdata["fullname"], userdata["designation"]);
-
-                          return Connect(allUserData[i]["fullname"], allUserData[i]["designation"]);
+                          print(allUserData.length);
+                          return Connect(allUserData[i], allUserData[i]["fullname"], allUserData[i]["designation"]);
                         })),
               ),
             ],
@@ -125,7 +125,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
         ));
   }
 
-  Widget Connect(name, designation) {
+  Widget Connect(allUserData, name, designation) {
     return Container(
         alignment: Alignment.center,
         padding: EdgeInsets.all(10),
@@ -187,7 +187,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
                   alignment: Alignment.centerRight,
                   child: IconButton(
                     onPressed: () {
-                      ProfileDialog(name, context);
+                      ProfileDialog(allUserData, context);
                     },
                     icon: FaIcon(
                       FontAwesomeIcons.userPlus,
