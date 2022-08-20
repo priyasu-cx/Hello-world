@@ -17,6 +17,9 @@ class NearbyConnect extends StatefulWidget {
 }
 
 class _NearbyConnectState extends State<NearbyConnect> {
+  List<Map<String, String?>> allUserData = [];
+  bool isDone = false;
+
   Future<Map<String, String?>> fetchUserData(String uid) async {
     var userData = new Map<String, String?>();
 
@@ -38,39 +41,41 @@ class _NearbyConnectState extends State<NearbyConnect> {
     return userData;
   }
 
+  void getallData(List<String> uidList) async {
+    List<Map<String, String?>> allData = [];
+
+    for (var uid in uidList) {
+      // Get.snackbar("Uid", uid);
+      print(uid);
+      await fetchUserData(uid).then((value) {
+        allData.add(value);
+        // print(value["fullname"]);
+        // allUserData[i]["fullname"]
+        //   // Get.snackbar(
+        //   // "If fullname exists:", value.containsKey("fullname").toString());
+      });
+      //print(uid);
+
+    }
+    setState(() {
+      isDone = true;
+      allUserData = allData;
+    });
+  }
+
+  @override
+  void initState() {
+    final cp = context.read<ConnectionProvider>();
+    if (isDone == false) {
+      getallData(cp.connections);
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final cp = context.read<ConnectionProvider>();
     final sp = context.read<SignInProvider>();
-    List<Map<String, String?>> allUserData = [];
-    bool isDone = false;
-
-    void getallData(List<String> uidList) async {
-      List<Map<String, String?>> allData = [];
-
-      for (var uid in uidList) {
-        // Get.snackbar("Uid", uid);
-        print(uid);
-        await fetchUserData(uid).then((value) {
-          allData.add(value);
-          // print(value["fullname"]);
-          // allUserData[i]["fullname"]
-          //   // Get.snackbar(
-          //   // "If fullname exists:", value.containsKey("fullname").toString());
-        });
-        //print(uid);
-
-      }
-      setState(() {
-        isDone = true;
-        allUserData = allData;
-        
-      });
-    }
-
-    if (isDone == false) {
-      getallData(cp.connections);
-    }
 
     print("Outside check -> ");
     print(allUserData.length);
