@@ -238,6 +238,15 @@ class SignInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future getConnectionList() async {
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(_uid);
+    await ref.get().then((DocumentSnapshot snapshot) {
+      _connectedList = snapshot["connectedList"];
+    });
+    notifyListeners();
+  }
+
   // Entry for cloud firestore
   Future getUserDataFromFirestore() async {
     await FirebaseFirestore.instance
