@@ -34,23 +34,22 @@ class _ProfileState extends State<Profile> {
     designation = datacount.read("designation");
     bio = datacount.read("bio");
     imageUrl = datacount.read("imageUrl");
-    print("Test Test" + fullname);
+    // print("Test Test" + fullname);
   }
 
   @override
   Widget build(BuildContext context) {
     final sp = context.read<SignInProvider>();
     final cp = context.read<ConnectionProvider>();
-    print(sp.fullname);
-    cp.enableDiscovery(sp.uid, context);
+    // print(sp.fullname);
     getdata();
     // var imageUrl = sp.imageUrl!;
     // var degignation = sp.designation!;
     // var bio = sp.bio!;
 
-    // setState(() {
-    //   getdata();
-    // });
+    setState(() {
+      cp.enableDiscovery(sp.uid, context);
+    });
 
     return Scaffold(
         drawer: const Menu(),
