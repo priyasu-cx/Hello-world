@@ -236,9 +236,11 @@ class SignInProvider extends ChangeNotifier {
       var connectedData = snapshot["connectedList"];
       _connectedList = List<String?>.from(connectedData);
     });
-    _connectedList.add(uid!);
-    await ref.update({"connectedList": _connectedList});
-    datacount.write("connectedlist", _connectedList);
+    if (_connectedList.contains(uid!) == false) {
+      _connectedList.add(uid);
+      await ref.update({"connectedList": _connectedList});
+      datacount.write("connectedlist", _connectedList);
+    }
     notifyListeners();
   }
 
