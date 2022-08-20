@@ -8,6 +8,7 @@ import 'package:sliding_switch/sliding_switch.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../provider/sign_in_provider.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -23,20 +24,26 @@ class _ProfileState extends State<Profile> {
   var bio = "";
 
   Future getdata() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
+    // final SharedPreferences sp = await SharedPreferences.getInstance();
+    final datacount = GetStorage();
     // fullname = sp.getString("fullname");
     // imageUrl = sp.getString("imageUrl");
     // designation = sp.getString("designation");
     // bio = sp.getString("bio");
+    fullname = datacount.read("fullname");
+    designation = datacount.read("designation");
+    bio = datacount.read("bio");
+    imageUrl = datacount.read("imageUrl");
+    print("Test Test" + fullname);
   }
 
   @override
   Widget build(BuildContext context) {
     final sp = context.read<SignInProvider>();
     final cp = context.read<ConnectionProvider>();
-    print(sp.fullname!);
+    print(sp.fullname);
     cp.enableDiscovery(sp.uid, context);
-    // getallData();
+    getdata();
     // var imageUrl = sp.imageUrl!;
     // var degignation = sp.designation!;
     // var bio = sp.bio!;
@@ -208,7 +215,7 @@ class _ProfileState extends State<Profile> {
                                 ? Image.asset("assets/animation.gif")
                                 : CircleAvatar(
                                     radius: 75,
-                                    backgroundImage: NetworkImage(sp.imageUrl!),
+                                    backgroundImage: NetworkImage(imageUrl),
                                   ),
                           ),
                           // CircleAvatar(
@@ -225,7 +232,7 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            sp.fullname!,
+                            fullname,
                             // "hello",
                             style: TextStyle(
                               letterSpacing: 1,
@@ -237,7 +244,7 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            sp.designation!,
+                            designation,
                             // "designation",
                             style: TextStyle(
                               fontSize: 16,
@@ -248,7 +255,7 @@ class _ProfileState extends State<Profile> {
                             height: Get.height * 0.01,
                           ),
                           Text(
-                            sp.bio!,
+                            bio,
                             // "Bios",
                             textAlign: TextAlign.center,
                             style: TextStyle(

@@ -9,6 +9,7 @@ import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
@@ -123,6 +124,9 @@ class _MenuState extends State<Menu> {
 
   Widget headerWidget() {
     final sp = context.read<SignInProvider>();
+    final datacount = GetStorage();
+    final fullname = datacount.read("fullname");
+    final imageUrl = datacount.read("imageUrl");
     const url =
         'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg';
     return Container(
@@ -130,7 +134,7 @@ class _MenuState extends State<Menu> {
         children: [
           CircleAvatar(
             radius: Get.height * 0.055,
-            backgroundImage: NetworkImage(sp.imageUrl!),
+            backgroundImage: NetworkImage(imageUrl),
           ),
           SizedBox(
             width: Get.height * 0.03,
@@ -139,7 +143,7 @@ class _MenuState extends State<Menu> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(sp.fullname!,
+                Text(fullname,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 16,
