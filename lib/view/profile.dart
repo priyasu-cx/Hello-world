@@ -318,7 +318,7 @@ class _ProfileState extends State<Profile> {
         ));
   }
 
-  Future getallData() async {}
+  //Future getallData() async {}
 
   // Future openDialog(image, text) => showDialog(
   //     context: context,
@@ -341,7 +341,11 @@ class _ProfileState extends State<Profile> {
   // );
 
   Widget social(context, index, image, text, link) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        openDialog(image, text, index);
+      },
+      child: Container(
       width: Get.width * 0.3,
       padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
       margin: EdgeInsets.all(10),
@@ -352,25 +356,8 @@ class _ProfileState extends State<Profile> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Container(
-          //   alignment: Alignment.topRight,
-          //   child: IconButton(
-          //     alignment: Alignment.topRight,
-          //     onPressed: () {
-          //       openDialog(image, text);
-          //     },
-          //     icon: FaIcon(
-          //       FontAwesomeIcons.penToSquare,
-          //       color: arrowcolor,
-          //     ),
-          //     iconSize: 15,
-          //   ),
-          // ),
-          GestureDetector(
-            onTap: () {
-              openDialog(image, text, index);
-            },
-            child: Column(
+
+          Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -390,11 +377,11 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ],
-            ),
-          )
-        ],
-      ),
-    );
+            )],
+          ),
+        )
+      );
+
   }
 
   openDialog(image, text, index) => showDialog(
