@@ -213,7 +213,7 @@ class _ProfileState extends State<Profile> {
                             child: sp.imageUrl == null
                                 ? Image.asset("assets/animation.gif")
                                 : CircleAvatar(
-                                    radius: 75,
+                                    radius: 50,
                                     backgroundImage: NetworkImage(imageUrl),
                                   ),
                           ),
