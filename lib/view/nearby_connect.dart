@@ -113,11 +113,11 @@ class _NearbyConnectState extends State<NearbyConnect> {
                     height: Get.height * 0.6,
                     //height: Get.height*0.5,
                     child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: allUserData.length,
                         itemBuilder: (context, i) {
                           //return Connect(userdata["fullname"], userdata["designation"]);
 
-                          return Connect("Profile name", "Designation");
+                          return Connect(allUserData[i]["fullname"], allUserData[i]["designation"]);
                         })),
               ),
             ],
