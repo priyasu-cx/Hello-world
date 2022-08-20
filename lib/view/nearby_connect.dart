@@ -42,7 +42,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
   Widget build(BuildContext context) {
     final cp = context.read<ConnectionProvider>();
     final sp = context.read<SignInProvider>();
-    late List<Map<String, String?>> allUserData;
+    List<Map<String, String?>> allUserData=[];
     bool isDone = false;
 
     Future getallData(List<String> uidList) async {
