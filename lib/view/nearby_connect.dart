@@ -52,8 +52,9 @@ class _NearbyConnectState extends State<NearbyConnect> {
         // Get.snackbar("Uid", uid);
         print(uid);
         await fetchUserData(uid).then((value) {
-          //   allData.add(value);
+          allData.add(value);
           print(value.keys);
+          // allUserData[i]["fullname"]
           //   // Get.snackbar(
           //   // "If fullname exists:", value.containsKey("fullname").toString());
         });
