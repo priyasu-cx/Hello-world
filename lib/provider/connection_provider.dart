@@ -45,15 +45,7 @@ class ConnectionProvider extends ChangeNotifier {
           }
           Get.snackbar("New Connection Found", _connections.toString());
         },
-        onEndpointLost: (id) {
-          Get.snackbar(
-            "On endpoint lost",
-            "Lost discovered Endpoint: id $id",
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 5),
-            backgroundColor: Colors.black,
-          );
-        },
+        onEndpointLost: (id) {},
       );
     } catch (e) {
       print(e);
