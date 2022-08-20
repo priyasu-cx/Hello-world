@@ -20,31 +20,31 @@ class SignInProvider extends ChangeNotifier {
   bool _hasError = false;
   bool get hasError => _hasError;
 
-  String? _errorCode="";
+  String? _errorCode = "";
   String? get errorCode => _errorCode;
 
-  String? _provider="";
+  String? _provider = "";
   String? get provider => _provider;
 
-  String? _uid="";
+  String? _uid = "";
   String? get uid => _uid;
 
-  String? _name="";
+  String? _name = "";
   String? get name => _name;
 
-  String? _email="";
+  String? _email = "";
   String? get email => _email;
 
-  String _imageUrl="";
+  String _imageUrl = "";
   String get imageUrl => _imageUrl;
 
-  String _fullname="";
+  String _fullname = "";
   String get fullname => _fullname;
 
-  String _designation="";
+  String _designation = "";
   String get designation => _designation;
 
-  String _bio="";
+  String _bio = "";
   String get bio => _bio;
 
   String? _linkedIn = "";
@@ -168,11 +168,12 @@ class SignInProvider extends ChangeNotifier {
     }
   }
 
-  Future setLinkedIn(String linkedInUrl) async {final datacount = GetStorage();
+  Future setLinkedIn(String linkedInUrl) async {
+    final datacount = GetStorage();
     //final SharedPreferences sp = await SharedPreferences.getInstance();
     _linkedIn = linkedInUrl;
     //await sp.setString("linkedIn", _linkedIn??"");
-    datacount.write("linkedIn", _linkedIn??"");
+    datacount.write("linkedIn", _linkedIn ?? "");
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
@@ -186,7 +187,7 @@ class SignInProvider extends ChangeNotifier {
     //final SharedPreferences sp = await SharedPreferences.getInstance();
     _github = githubUrl;
     //await sp.setString("github", _github??"");
-    datacount.write("github", _github??"");
+    datacount.write("github", _github ?? "");
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
@@ -200,7 +201,7 @@ class SignInProvider extends ChangeNotifier {
     // final SharedPreferences sp = await SharedPreferences.getInstance();
     _portfolio = portfolioUrl;
     // await sp.setString("portfolio", _portfolio??"");
-    datacount.write("portfolio", _portfolio??"");
+    datacount.write("portfolio", _portfolio ?? "");
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
@@ -214,7 +215,7 @@ class SignInProvider extends ChangeNotifier {
     // final SharedPreferences sp = await SharedPreferences.getInstance();
     _twitter = twitterUrl;
     // await sp.setString("twitter", _twitter??"");
-    datacount.write("twitter", _twitter??"");
+    datacount.write("twitter", _twitter ?? "");
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("users").doc(_uid);
     await ref.update({
@@ -242,7 +243,7 @@ class SignInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map> fetchUserDataFirestore(String uid) async {
+  Future<Map<String, String?>> fetchUserDataFirestore(String uid) async {
     var userData = new Map<String, String?>();
 
     await FirebaseFirestore.instance
@@ -283,6 +284,10 @@ class SignInProvider extends ChangeNotifier {
       "email": _email,
       "uid": _uid,
       "imageUrl": _imageUrl,
+      "linkedIn": _linkedIn,
+      "github": _github,
+      "portfolio": _portfolio,
+      "twitter": _twitter,
     });
     notifyListeners();
   }
@@ -310,14 +315,14 @@ class SignInProvider extends ChangeNotifier {
     // await sp.setString("github", _github??"");
     // await sp.setString("portfolio", _portfolio??"");
     // await sp.setString("twitter", _twitter??"");
-    await datacount.write("name", _name??"");
-    await datacount.write("email", _email??"");
-    await datacount.write("uid", _uid??"");
+    await datacount.write("name", _name ?? "");
+    await datacount.write("email", _email ?? "");
+    await datacount.write("uid", _uid ?? "");
     await datacount.write("imageUrl", _imageUrl);
-    await datacount.write("linkedIn", _linkedIn??"");
-    await datacount.write("github", _github??"");
-    await datacount.write("portfolio", _portfolio??"");
-    await datacount.write("twitter", _twitter??"");
+    await datacount.write("linkedIn", _linkedIn ?? "");
+    await datacount.write("github", _github ?? "");
+    await datacount.write("portfolio", _portfolio ?? "");
+    await datacount.write("twitter", _twitter ?? "");
   }
 
   Future readDataFromSharedPreferences() async {

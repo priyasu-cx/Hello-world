@@ -17,6 +17,27 @@ class NearbyConnect extends StatefulWidget {
 }
 
 class _NearbyConnectState extends State<NearbyConnect> {
+  Future<Map<String, String?>> fetchUserData(String uid) async {
+    var userData = new Map<String, String?>();
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot snapshot) async {
+      userData["fullname"] = snapshot["fullname"];
+      userData["designation"] = snapshot["designation"];
+      userData["bio"] = snapshot["bio"];
+      userData["imageUrl"] = snapshot["imageUrl"];
+      userData["linkedIn"] = snapshot["linkedIn"];
+      userData["github"] = snapshot["github"];
+      userData["portfolio"] = snapshot["portfolio"];
+      userData["twitter"] = snapshot["twitter"];
+    });
+
+    return userData;
+  }
+
   @override
   Widget build(BuildContext context) {
     final cp = context.read<ConnectionProvider>();
@@ -25,32 +46,22 @@ class _NearbyConnectState extends State<NearbyConnect> {
     bool isDone = false;
 
     Future getallData(List<String> uidList) async {
-      List<Map<String, String?>> allUserData = [];
+      List<Map<String, String?>> allData = [];
 
       for (var uid in uidList) {
-        
-        // Snackbar e uid print kora
-        // -------------------------------------------------------------------------------------------
-        Get.snackbar("Uid", uid);
+        // Get.snackbar("Uid", uid);
+        print(uid);
+        await fetchUserData(uid).then((value) {
+          //   allData.add(value);
+          print(value.keys);
+          //   // Get.snackbar(
+          //   // "If fullname exists:", value.containsKey("fullname").toString());
+        });
         //print(uid);
-      }
-      return allUserData;
-    }
 
-    // Future fetchuserdata(var uid){
-    //   await FirebaseFirestore.instance
-    //       .collection("users")
-    //       .doc(uid)
-    //       .get()
-    //       .then((DocumentSnapshot snapshot) async {
-    //     _fullname = snapshot["fullname"];
-    //     _imageUrl = snapshot["imageUrl"];
-    //     _linkedIn = snapshot["linkedIn"];
-    //     _github = snapshot["github"];
-    //     _portfolio = snapshot["portfolio"];
-    //     _twitter = snapshot["twitter"];
-    //   });
-    // }
+      }
+      return allData;
+    }
 
     void getdata() async {
       allUserData = await getallData(cp.connections);
