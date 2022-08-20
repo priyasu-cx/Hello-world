@@ -4,12 +4,13 @@ import 'package:connecten/view/Nav_Drawer/drawer_item.dart';
 import 'package:connecten/view/connections.dart';
 import 'package:connecten/view/login_screen.dart';
 import 'package:connecten/view/nearby_connect.dart';
-import 'package:connecten/view/nearby_test.dart';
 import 'package:connecten/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
@@ -73,17 +74,80 @@ class _MenuState extends State<Menu> {
               SizedBox(
                 height: Get.height * 0.03,
               ),
-              DrawerItem(
-                  name: 'Setting',
-                  icon: Icons.settings,
-                  onPressed: () => onItemPressed(context, index: 3)),
-              SizedBox(
-                height: Get.height * 0.03,
-              ),
+              // DrawerItem(
+              //     name: 'Setting',
+              //     icon: Icons.settings,
+              //     onPressed: () => onItemPressed(context, index: 3)),
+              // SizedBox(
+              //   height: Get.height * 0.03,
+              // ),
               DrawerItem(
                   name: 'Log out',
                   icon: Icons.logout,
                   onPressed: () => onItemPressed(context, index: 4)),
+              SizedBox(height: Get.height*0.2),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FaIcon(FontAwesomeIcons.fileContract, color: Colors.black,size: 16,),
+                  TextButton(onPressed: (){
+                    showLicensePage(context: context, applicationIcon: Image.asset("assets/logo.png", height: 70,),applicationVersion: "1.2.1", applicationLegalese: "Copyright CodingReboot");
+                  }, child: Text(
+                    "Licenses", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16),
+                  ))
+
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(onPressed: ()async{
+                    var url = Uri.parse("https://pages.flycricket.io/connecten/terms.html");
+
+                    if (await canLaunchUrl(url)) {
+                    // LaunchMode.externalApplication;
+                    await launchUrl(url);
+                    } else {
+                    throw 'Could not launch $url';
+                    }
+                  }, child: Text(
+                    "Terms & Conditions", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 10),
+                  )),
+                  SizedBox(width: Get.width*0.02),
+                  TextButton(onPressed: ()async{
+
+                      var url = Uri.parse("https://pages.flycricket.io/connecten/privacy.html");
+
+                      if (await canLaunchUrl(url)) {
+                    // LaunchMode.externalApplication;
+                    await launchUrl(url);
+                    } else {
+                    throw 'Could not launch $url';
+                    }
+
+                  }, child: Text(
+                    "Privacy Policy", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 10),
+                  )),
+
+                ],
+              )
+              // Container(
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     crossAxisAlignment: CrossAxisAlignment.end,
+              //     children: [
+              //       Row(
+              //         children: [
+              //           FaIcon(FontAwesomeIcons.fileContract, color: Colors.black,),
+              //           TextButton(onPressed: (){}, child: Text(
+              //             "Licenses", style: TextStyle(fontWeight: FontWeight.w600),
+              //           ))
+              //
+              //         ],
+              //       )
+              //     ],
+              //   )
+              // )
             ],
           ),
         ),
@@ -164,17 +228,4 @@ class _MenuState extends State<Menu> {
   }
 }
 
-class People extends StatelessWidget {
-  const People({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('People'),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-      ),
-    );
-  }
-}

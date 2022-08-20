@@ -267,7 +267,7 @@ class _ProfileState extends State<Profile> {
         openDialog(image, text, index);
       },
       child: Container(
-      width: Get.width * 0.3,
+      width: Get.width * 0.32,
       padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(

@@ -142,7 +142,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
     final sp = context.read<SignInProvider>();
     return Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
         margin: EdgeInsets.only(bottom: 20),
         height: Get.height * 0.15,
         decoration: BoxDecoration(
