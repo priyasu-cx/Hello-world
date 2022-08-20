@@ -28,6 +28,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
         .doc(uid)
         .get()
         .then((DocumentSnapshot snapshot) async {
+      userData["uid"] = snapshot["uid"];
       userData["fullname"] = snapshot["fullname"];
       userData["designation"] = snapshot["designation"];
       userData["bio"] = snapshot["bio"];
@@ -36,6 +37,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
       userData["github"] = snapshot["github"];
       userData["portfolio"] = snapshot["portfolio"];
       userData["twitter"] = snapshot["twitter"];
+      userData["connectedList"] = snapshot["connectedList"];
     });
 
     return userData;
@@ -74,8 +76,8 @@ class _NearbyConnectState extends State<NearbyConnect> {
 
   @override
   Widget build(BuildContext context) {
-    final cp = context.read<ConnectionProvider>();
-    final sp = context.read<SignInProvider>();
+    // final cp = context.read<ConnectionProvider>();
+    // final sp = context.read<SignInProvider>();
 
 
     print("Outside check -> ");
@@ -134,6 +136,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
   }
 
   Widget Connect(allUserData, name, designation) {
+    final sp = context.read<SignInProvider>();
     return Container(
         alignment: Alignment.center,
         padding: EdgeInsets.all(10),
@@ -194,7 +197,8 @@ class _NearbyConnectState extends State<NearbyConnect> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    onPressed: () {
+                    onPressed: () async{
+                      await sp.addConnection(allUserData["uid"]);
                       ProfileDialog(allUserData, context);
                     },
                     icon: FaIcon(
