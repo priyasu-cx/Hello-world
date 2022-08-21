@@ -206,7 +206,7 @@ class _NearbyConnectState extends State<NearbyConnect> {
                   child: IconButton(
                     onPressed: () async{
                       await sp.addConnection(allUserData["uid"]);
-
+                      Get.snackbar("Connection Added", allUserData["fullname"]);
                     },
                     icon: FaIcon(
                       FontAwesomeIcons.userPlus,
