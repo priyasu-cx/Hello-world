@@ -17,6 +17,10 @@ class UpEvents extends StatefulWidget {
 }
 
 class _UpEventsState extends State<UpEvents> {
+
+    List<Map<String, String?>> allData = [];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,16 +217,20 @@ class _UpEventsState extends State<UpEvents> {
   }
 
   getallData(index) async {
-    List<Map<String, String?>> allData = [];
-    List<String?> uidList = [];
-    uidList = await getAttendeeList(index);
+    final sp = context.read<SignInProvider>();
+    await sp.getAttendees(index);
+    List<String?> uidList = sp.attendeeList;
+    // uidList = await getAttendeeList(index);
 
     for (var uid in uidList) {
       // Get.snackbar("Uid", uid);
       // print(uid);
-      await fetchUserData(uid!).then((value) {
+      await sp.fetchUserDataFirestore(uid!).then((value) {
         allData.add(value);
-      });
+      },);
+      // await fetchUserData(uid!).then((value) {
+      //   allData.add(value);
+      // });
     }
     setState(() {
       isDone = true;
