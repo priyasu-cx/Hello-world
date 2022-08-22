@@ -226,14 +226,15 @@ class SignInProvider extends ChangeNotifier {
   }
 
   Future addToEvent(String? eventId) async {
+    print("Sign in " + eventId!);
     final DocumentReference ref =
         FirebaseFirestore.instance.collection("events").doc(eventId);
     await ref.get().then((DocumentSnapshot snapshot) {
       var eventData = snapshot["Attendees"];
       _attendeeList = List<String?>.from(eventData);
     });
-    if (_attendeeList.contains(eventId!) == false) {
-      _attendeeList.add(eventId);
+    if (_attendeeList.contains(eventId) == false) {
+      _attendeeList.add();
       await ref.update({"Attendees": _attendeeList});
       datacount.write("Attendees", _attendeeList);
     }

@@ -156,7 +156,9 @@ class _UpEventsState extends State<UpEvents> {
                     Column(
                       children: [
 
-                        IconButton(onPressed: (){print(index+1);sp.addToEvent(index.toString());},
+                        IconButton(onPressed: (){
+                          print(index+1);
+                          sp.addToEvent((index+1).toString());},
                             icon: Icon(Icons.event_seat_rounded)
                         )
                       ],
