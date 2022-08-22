@@ -61,6 +61,9 @@ class SignInProvider extends ChangeNotifier {
   List<String?> _connectedList = [];
   List<String?> get connectedList => _connectedList;
 
+  List<String?> _eventList = [];
+  List<String?> get eventList => _eventList;
+
   SignInProvider() {
     checkSignInUser();
     readDataFromSharedPreferences();
@@ -103,6 +106,8 @@ class SignInProvider extends ChangeNotifier {
     _isSignedIn = true;
     notifyListeners();
   }
+
+  
 
   Future signInWithGoogle() async {
     final GoogleSignInAccount? googleSignInAccount =
@@ -214,6 +219,21 @@ class SignInProvider extends ChangeNotifier {
       _connectedList.add(uid);
       await ref.update({"connectedList": _connectedList});
       datacount.write("connectedlist", _connectedList);
+    }
+    notifyListeners();
+  }
+
+  Future addToEvent(String? eventId) async {
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("events").doc(eventId);
+    await ref.get().then((DocumentSnapshot snapshot) {
+      var eventData = snapshot["Attendees"];
+      _eventList = List<String?>.from(eventData);
+    });
+    if (_eventList.contains(eventId!) == false) {
+      _eventList.add(eventId);
+      await ref.update({"Attendees": _eventList});
+      datacount.write("Attendees", _eventList);
     }
     notifyListeners();
   }
