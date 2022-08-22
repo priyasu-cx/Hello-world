@@ -232,8 +232,8 @@ class SignInProvider extends ChangeNotifier {
       var eventData = snapshot["Attendees"];
       _attendeeList = List<String?>.from(eventData);
     });
-    if (_attendeeList.contains(eventId!) == false) {
-      _attendeeList.add(eventId);
+    if (_attendeeList.contains(_uid) == false) {
+      _attendeeList.add(_uid);
       await ref.update({"Attendees": _attendeeList});
       datacount.write("Attendees", _attendeeList);
     }
