@@ -61,8 +61,10 @@ class SignInProvider extends ChangeNotifier {
   List<String?> _connectedList = [];
   List<String?> get connectedList => _connectedList;
 
-  List<String?> _eventList = [];
-  List<String?> get eventList => _eventList;
+  List<String?> _attendeeList = [];
+  List<String?> get attendeeList => _attendeeList;
+
+
 
   SignInProvider() {
     checkSignInUser();
@@ -228,12 +230,12 @@ class SignInProvider extends ChangeNotifier {
         FirebaseFirestore.instance.collection("events").doc(eventId);
     await ref.get().then((DocumentSnapshot snapshot) {
       var eventData = snapshot["Attendees"];
-      _eventList = List<String?>.from(eventData);
+      _attendeeList = List<String?>.from(eventData);
     });
-    if (_eventList.contains(eventId!) == false) {
-      _eventList.add(eventId);
-      await ref.update({"Attendees": _eventList});
-      datacount.write("Attendees", _eventList);
+    if (_attendeeList.contains(eventId!) == false) {
+      _attendeeList.add(eventId);
+      await ref.update({"Attendees": _attendeeList});
+      datacount.write("Attendees", _attendeeList);
     }
     notifyListeners();
   }
@@ -269,6 +271,17 @@ class SignInProvider extends ChangeNotifier {
       _connectedList = connectedData.cast<String?>();
     });
     notifyListeners();
+  }
+
+  Future getAttendees(String? eventId) async {
+    await FirebaseFirestore.instance
+        .collection("events")
+        .doc(eventId)
+        .get()
+        .then((DocumentSnapshot snapshot) async {
+      var attendeeData = snapshot["Attendees"];
+      _attendeeList = attendeeData.cast<String?>();
+    });
   }
 
   Future<Map<String, String?>> fetchUserDataFirestore(String uid) async {
