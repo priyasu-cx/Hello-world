@@ -253,15 +253,26 @@ class _UpEventsState extends State<UpEvents> {
               itemCount: 2,
               itemBuilder: (context, index) {
                 return ListTile(
-                  
+                  visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                   dense: true,
                   selectedTileColor: Colors.blue,
                   title: Container(
+                    padding: EdgeInsets.all(10),
+                    width: 100,
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: cardcolor,
                       border: Border(),
+                      borderRadius: BorderRadius.circular(20)
                     ),
-                    child: Text("Attendee Name"),
+                    child: Text(
+                      "Attendee name",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300),
+                      textAlign: TextAlign.justify,
+                    ),
                   ),
                 );
               },
