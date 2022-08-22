@@ -1,3 +1,4 @@
+import 'package:connecten/provider/sign_in_provider.dart';
 import 'package:connecten/utils/colors.dart';
 import 'package:connecten/view/Nav_Drawer/menu.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../provider/sign_in_provider.dart';
+import 'package:provider/provider.dart';
 
 class UpEvents extends StatefulWidget {
   const UpEvents({Key? key}) : super(key: key);
@@ -93,7 +96,7 @@ class _UpEventsState extends State<UpEvents> {
               ),
               context: context,
               elevation: 1,
-              builder: (BuildContext context){return Event_details(index,snapshot);}
+              builder: (BuildContext context)async{return await Event_details(index,snapshot);}
           );
         },
       child: Container(
@@ -165,8 +168,84 @@ class _UpEventsState extends State<UpEvents> {
     );
 
   }
+  List<Map<String, String?>> allUserData = [];
+  List<String?> connectedList = [];
+  bool isDone = false;
 
-  Widget Event_details(index,snapshot){
+  Future<List<String?>> getAttendeeList(String? index) async {
+    //final datacount = GetStorage();
+    List<String?> data = [];
+    final DocumentReference ref =
+    FirebaseFirestore.instance.collection("events").doc(index);
+    await ref.get().then((DocumentSnapshot snapshot) {
+      var attendeeData = snapshot["Attendees"];
+      data = List<String?>.from(attendeeData);
+      // print(data);
+    });
+    // datacount.write("connectedlist", data);
+    print(data);
+    return data;
+  }
+
+  Future<Map<String, String?>> fetchUserData(String uid) async {
+    var userData = new Map<String, String?>();
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot snapshot) async {
+      userData["uid"] = snapshot["uid"];
+      userData["fullname"] = snapshot["fullname"];
+      userData["designation"] = snapshot["designation"];
+      userData["bio"] = snapshot["bio"];
+      userData["imageUrl"] = snapshot["imageUrl"];
+      userData["linkedIn"] = snapshot["linkedIn"];
+      userData["github"] = snapshot["github"];
+      userData["portfolio"] = snapshot["portfolio"];
+      userData["twitter"] = snapshot["twitter"];
+      // userData["connectedList"] = snapshot["connectedList"];
+      var connectedData = snapshot["connectedList"];
+      connectedList = List<String?>.from(connectedData);
+    });
+
+    return userData;
+  }
+
+  getallData(index) async {
+    List<Map<String, String?>> allData = [];
+    List<String?> uidList = [];
+    uidList = await getAttendeeList(index);
+
+    for (var uid in uidList) {
+      // Get.snackbar("Uid", uid);
+      // print(uid);
+      await fetchUserData(uid!).then((value) {
+        allData.add(value);
+      });
+    }
+    setState(() {
+      isDone = true;
+      allUserData = allData;
+    });
+  }
+
+  @override
+  void initState() {
+    //final cp = context.read<ConnectionProvider>();
+    final sp = context.read<SignInProvider>();
+    // final datacount = GetStorage();
+
+    if (isDone == false) {
+      //getallData(sp.uid!);
+    }
+    super.initState();
+  }
+
+
+  Future<Widget> Event_details(context, index,snapshot)async {
+    await getallData(index!);
+    print("***************************************************" + allUserData.length.toString());
     QueryDocumentSnapshot<Object?>? documentSnapshot =
     snapshot.data?.docs[index];
     return Container(
@@ -250,7 +329,7 @@ class _UpEventsState extends State<UpEvents> {
           SingleChildScrollView(
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: 2,
+              itemCount: allUserData.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
@@ -265,7 +344,7 @@ class _UpEventsState extends State<UpEvents> {
                       borderRadius: BorderRadius.circular(20)
                     ),
                     child: Text(
-                      "Attendee name",
+                      allUserData[index]["fullname"]!,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: Colors.black,
