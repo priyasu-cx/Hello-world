@@ -19,6 +19,7 @@ class UpEvents extends StatefulWidget {
 class _UpEventsState extends State<UpEvents> {
   @override
   Widget build(BuildContext context) {
+    final sp = context.read<SignInProvider>();
     return Scaffold(
         drawer: const Menu(),
         appBar: AppBar(
@@ -84,6 +85,7 @@ class _UpEventsState extends State<UpEvents> {
   }
 
   Widget Event_card(index, snapshot) {
+    final sp = context.read<SignInProvider>();
     QueryDocumentSnapshot<Object?>? documentSnapshot =
     snapshot.data?.docs[index];
     return Padding(
@@ -153,7 +155,8 @@ class _UpEventsState extends State<UpEvents> {
 
                     Column(
                       children: [
-                        IconButton(onPressed: (){},
+
+                        IconButton(onPressed: (){print(index+1);sp.addToEvent(index.toString());},
                             icon: Icon(Icons.event_seat_rounded)
                         )
                       ],
@@ -215,8 +218,8 @@ class _UpEventsState extends State<UpEvents> {
   getallData(index) async {
     List<Map<String, String?>> allData = [];
     List<String?> uidList = [];
-    uidList = await getAttendeeList(index);
-
+    uidList = await getAttendeeList(index.toString());
+    print(uidList.length);
     for (var uid in uidList) {
       // Get.snackbar("Uid", uid);
       // print(uid);
@@ -244,7 +247,7 @@ class _UpEventsState extends State<UpEvents> {
 
 
   Widget Event_details(index,snapshot) {
-    getallData(index!);
+    getallData(index+1);
     print("***************************************************" + allUserData.length.toString());
     QueryDocumentSnapshot<Object?>? documentSnapshot =
     snapshot.data?.docs[index];
@@ -330,7 +333,7 @@ class _UpEventsState extends State<UpEvents> {
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: allUserData.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (context, i) {
                 return ListTile(
                   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                   dense: true,
@@ -344,7 +347,7 @@ class _UpEventsState extends State<UpEvents> {
                       borderRadius: BorderRadius.circular(20)
                     ),
                     child: Text(
-                      allUserData[index]["fullname"]!,
+                      allUserData[i]["fullname"]!,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: Colors.black,
