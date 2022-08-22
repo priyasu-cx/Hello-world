@@ -96,7 +96,7 @@ class _UpEventsState extends State<UpEvents> {
               ),
               context: context,
               elevation: 1,
-              builder: (BuildContext context)async{return await Event_details(index,snapshot);}
+              builder: (BuildContext context){return Event_details(index,snapshot);}
           );
         },
       child: Container(
@@ -243,8 +243,8 @@ class _UpEventsState extends State<UpEvents> {
   }
 
 
-  Future<Widget> Event_details(context, index,snapshot)async {
-    await getallData(index!);
+  Widget Event_details(index,snapshot) {
+    getallData(index!);
     print("***************************************************" + allUserData.length.toString());
     QueryDocumentSnapshot<Object?>? documentSnapshot =
     snapshot.data?.docs[index];
